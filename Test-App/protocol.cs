@@ -1,12 +1,29 @@
 ﻿using System;
-using core;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace protocol.admin
 {
 	using AccountId = System.UInt32;
+
+	public class Account 
+	{
+		public AccountId id { get; set; }
+		public string account_holder_name { get; set; }
+		public double balance { get; set; }
+
+		public override string ToString()
+		{
+			StringBuilder strData = new StringBuilder ();
+			strData.Append("Account ( ");
+			strData.AppendFormat("id: {0}, ", id);
+			strData.AppendFormat ("account_holder_name: {0}, ", account_holder_name);
+			strData.AppendFormat ("balance: {0} ", balance);
+			strData.Append(")");
+			return strData.ToString() + Environment.NewLine;
+		}
+	}
 
 	public class Ping
 	{
@@ -75,43 +92,6 @@ namespace protocol.admin
 		}
 	}
 
-	public class Request
-	{
-		public string toJSON (Object obj)
-		{
-			return "{ \"data\": [ \"" + obj.GetType ().Name + "\", " + JsonConvert.SerializeObject (obj) + "] }";
-		}
-
-		public object parseJSON (string json)
-		{
-			var data = Newtonsoft.Json.Linq.JObject.Parse (json);
-			json = data ["data"] [1].ToString ();
-			Object obj;
-
-			switch (data ["data"] [0].ToString ()) {
-			case "Ping":
-				obj = Newtonsoft.Json.JsonConvert.DeserializeObject <Ping> (json);
-				break;
-			case "RegisterAccount":
-				obj = Newtonsoft.Json.JsonConvert.DeserializeObject <RegisterAccount> (json);
-				break;
-			case "LookupAccount":
-				obj = Newtonsoft.Json.JsonConvert.DeserializeObject <LookupAccount> (json);
-				break;
-			case "TransferAmount":
-				obj = Newtonsoft.Json.JsonConvert.DeserializeObject <TransferAmount> (json);
-				break;
-			case "ListAllAccounts":
-				obj = Newtonsoft.Json.JsonConvert.DeserializeObject <ListAllAccounts> (json);
-				break;
-			default:
-				throw new Exception ("invalid type");
-			}
-
-			return obj;
-		}
-	}
-
 	public class Pong
 	{
 		public override string ToString()
@@ -136,7 +116,7 @@ namespace protocol.admin
 
 	public class AccountInfo
 	{
-		public core.Account account { get; set; }
+		public Account account { get; set; }
 
 		public override string ToString()
 		{
@@ -172,7 +152,7 @@ namespace protocol.admin
 
 	public class AllAccounts
 	{
-		public List<core.Account> accounts { get; set; }
+		public List<Account> accounts { get; set; }
 
 		public override string ToString()
 		{
@@ -188,21 +168,35 @@ namespace protocol.admin
 		}
 	}
 
-	public class Response
+	public static class Parser
 	{
-		public string toJSON (Object obj)
+		public static string toJSON (Object obj)
 		{
-			return "{ data: [ \"" + obj.GetType ().Name + "\", " + JsonConvert.SerializeObject (obj) + "] }";
+			return "{ \"data\": [ \"" + obj.GetType ().Name + "\", " + JsonConvert.SerializeObject (obj) + "] }";
 		}
 
-		public object parseJSON (string json)
+		public static object parseJSON (string json)
 		{
 			var data = Newtonsoft.Json.Linq.JObject.Parse (json);
 			json = data ["data"] [1].ToString ();
-
 			Object obj;
 
 			switch (data ["data"] [0].ToString ()) {
+			case "Ping":
+				obj = Newtonsoft.Json.JsonConvert.DeserializeObject <Ping> (json);
+				break;
+			case "RegisterAccount":
+				obj = Newtonsoft.Json.JsonConvert.DeserializeObject <RegisterAccount> (json);
+				break;
+			case "LookupAccount":
+				obj = Newtonsoft.Json.JsonConvert.DeserializeObject <LookupAccount> (json);
+				break;
+			case "TransferAmount":
+				obj = Newtonsoft.Json.JsonConvert.DeserializeObject <TransferAmount> (json);
+				break;
+			case "ListAllAccounts":
+				obj = Newtonsoft.Json.JsonConvert.DeserializeObject <ListAllAccounts> (json);
+				break;
 			case "Pong":
 				obj = Newtonsoft.Json.JsonConvert.DeserializeObject <Pong> (json);
 				break;
@@ -222,7 +216,6 @@ namespace protocol.admin
 				obj = Newtonsoft.Json.JsonConvert.DeserializeObject <AllAccounts> (json);
 				break;
 			default:
-
 				throw new Exception ("invalid type");
 			}
 

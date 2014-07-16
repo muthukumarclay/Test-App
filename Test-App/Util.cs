@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using protocol.admin;
 
+
 namespace TestApp
 {
 	public static class Util
@@ -13,8 +14,7 @@ namespace TestApp
 		public static object api_request (object webrequest_value)
 		{
 			try {
-				Request request = new Request();
-				string strBody = request.toJSON (webrequest_value);
+				string strBody = Parser.toJSON(webrequest_value);
 
 				ASCIIEncoding encoding = new ASCIIEncoding ();
 				Uri url = new Uri (ADMIN_API_URL);
@@ -33,14 +33,12 @@ namespace TestApp
 				StreamReader stream = new StreamReader (webresponse.GetResponseStream ());
 				string json = stream.ReadToEnd ();
 
-				Response response = new Response();
-				return response.parseJSON(json);
+				return Parser.parseJSON(json);
 			} catch (WebException ex) {
 				Console.WriteLine ("http errror: " + ex.Message);
 			}
 
 			return "";
 		}
-		
 	}
 }
