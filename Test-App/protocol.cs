@@ -32,7 +32,7 @@ namespace protocol.admin
 	{
 		public override string ToString ()
 		{
-			return String.Format ("Ping") + Environment.NewLine;
+			return "Ping" + Environment.NewLine;
 		}
 	}
 
@@ -91,7 +91,7 @@ namespace protocol.admin
 	{
 		public override string ToString ()
 		{
-			return String.Format ("ListAllAccounts") + Environment.NewLine;
+			return "ListAllAccounts" + Environment.NewLine;
 		}
 	}
 
