@@ -2,8 +2,10 @@
 using System.Net;
 using System.IO;
 using System.Text;
-
 using Microsoft.CSharp;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+
 namespace TestApp
 {
 	public static class Util
@@ -13,7 +15,8 @@ namespace TestApp
 		public static object api_request (dynamic webrequest_value, dynamic response)
 		{
 			try {
-				string strBody = webrequest_value.toJSON();
+				string strBody = webrequest_value.toJson();
+				strBody = "{ \"data\": " + strBody + " }";
 
 				ASCIIEncoding encoding = new ASCIIEncoding ();
 				Uri url = new Uri (ADMIN_API_URL);
@@ -31,10 +34,11 @@ namespace TestApp
 				WebResponse webresponse = webrequest.GetResponse ();
 				StreamReader stream = new StreamReader (webresponse.GetResponseStream ());
 				string json = stream.ReadToEnd ();
-
-				response.parseJSON(json);
-
-				return response;
+				Console.WriteLine("RESPONSE");
+				Console.WriteLine(json);
+				Dictionary<string, object> fields = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+				json = JsonConvert.SerializeObject(fields["data"]);
+				return response.parseJson(json);
 			} catch (WebException ex) {
 				Console.WriteLine ("http errror: " + ex.Message);
 			}
