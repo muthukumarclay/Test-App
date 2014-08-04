@@ -2,7 +2,7 @@
 using System.Net;
 using System.IO;
 using System.Text;
-using protocol.admin;
+
 using Microsoft.CSharp;
 namespace TestApp
 {
@@ -13,7 +13,7 @@ namespace TestApp
 		public static object api_request (dynamic webrequest_value, dynamic response)
 		{
 			try {
-				string strBody = webrequest_value.toJSON(webrequest_value);
+				string strBody = webrequest_value.toJSON();
 
 				ASCIIEncoding encoding = new ASCIIEncoding ();
 				Uri url = new Uri (ADMIN_API_URL);
@@ -32,7 +32,9 @@ namespace TestApp
 				StreamReader stream = new StreamReader (webresponse.GetResponseStream ());
 				string json = stream.ReadToEnd ();
 
-				return response.parseJSON(json);
+				response.parseJSON(json);
+
+				return response;
 			} catch (WebException ex) {
 				Console.WriteLine ("http errror: " + ex.Message);
 			}
