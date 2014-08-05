@@ -79,30 +79,20 @@ namespace TestApp
 				Request request = new Request();
 				Response response = new Response();
 
-				LookupAccount lk = new LookupAccount ();
-				lk.account_id = 1;
-				request.set_option(lk);
-				Console.WriteLine (request);
-
-				response.set_option((Response)Util.api_request(request, response));
-				AccountInfo account = (AccountInfo) response.get_option();
-				Console.WriteLine (response);
-
 				ListAllAccounts list_all = new ListAllAccounts();
 				request.set_option(list_all);
-				Console.WriteLine(request);
-
 				response.set_option((Response)Util.api_request(request, response));
-				Console.WriteLine(response);
 
 				RegisterAccount register = new RegisterAccount();
 				register.account_holder_name = null;
 				register.initial_balance = 100;
 				request.set_option(register);
-				Console.WriteLine(request);
-
 				response.set_option((Response)Util.api_request(request, response));
-				Console.WriteLine(response);
+
+				LookupAccount lk = new LookupAccount ();
+				lk.account_id = ((AccountInfo)response.get_option()).account.id;
+				request.set_option(lk);
+				response.set_option((Response)Util.api_request(request, response));
 			} catch (WebException ex) {
 				Console.WriteLine ("http errror: " + ex.Message);
 			}
