@@ -18,6 +18,10 @@ namespace TestApp
 				string strBody = webrequest_value.toJson();
 				strBody = "{ \"data\": " + strBody + " }";
 
+				Console.WriteLine("SENDING");
+				Console.WriteLine(strBody);
+
+
 				ASCIIEncoding encoding = new ASCIIEncoding ();
 				Uri url = new Uri (ADMIN_API_URL);
 				WebRequest webrequest = WebRequest.CreateDefault (url);
@@ -41,6 +45,10 @@ namespace TestApp
 				return response.parseJson(json);
 			} catch (WebException ex) {
 				Console.WriteLine ("http errror: " + ex.Message);
+				StreamReader stream = new StreamReader (ex.Response.GetResponseStream ());
+				Console.WriteLine (stream.ReadToEnd ());
+			} catch (Exception ex) {
+				Console.WriteLine (ex.Message);
 			}
 
 			return "";

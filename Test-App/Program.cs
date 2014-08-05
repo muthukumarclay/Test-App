@@ -84,7 +84,7 @@ namespace TestApp
 				request.set_option(lk);
 				Console.WriteLine (request);
 
-				response.set_option(Util.api_request(request, response));
+				response.set_option((Response)Util.api_request(request, response));
 				AccountInfo account = (AccountInfo) response.get_option();
 				Console.WriteLine (response);
 
@@ -92,16 +92,17 @@ namespace TestApp
 				request.set_option(list_all);
 				Console.WriteLine(request);
 
-				response.set_option(Util.api_request(request, response));
+				response.set_option((Response)Util.api_request(request, response));
 				Console.WriteLine(response);
 
-
 				RegisterAccount register = new RegisterAccount();
-				register.account_holder_name = "new_one";
+				register.account_holder_name = null;
 				register.initial_balance = 100;
 				request.set_option(register);
 				Console.WriteLine(request);
 
+				response.set_option((Response)Util.api_request(request, response));
+				Console.WriteLine(response);
 			} catch (WebException ex) {
 				Console.WriteLine ("http errror: " + ex.Message);
 			}

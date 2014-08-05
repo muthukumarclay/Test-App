@@ -15,13 +15,13 @@ namespace test {
 	/// </summary>
 
 	public class Request {
-		public dynamic option = null;
+		public Request option = null;
 
-		public void set_option(object obj) {
+		public void set_option(Request obj) {
 			this.option = obj;
 		}
 
-		public dynamic get_option() {
+		public Request get_option() {
 			return this.option;
 		}
 
@@ -32,7 +32,7 @@ namespace test {
 			return this.option.toJson ();
 		}
 
-		public virtual dynamic parseJson(string json) {
+		public virtual Request parseJson(string json) {
 			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
 			switch (lst [0].ToString ()) {
 			case "Ping":
@@ -80,7 +80,7 @@ namespace test {
 			return JsonConvert.SerializeObject(variant, Formatting.Indented);
 		}
 
-		public override dynamic parseJson(string json) {
+		public override Request parseJson(string json) {
 			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
 
 			if (lst.Count() != 2) {
@@ -98,7 +98,7 @@ namespace test {
 				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
 			}
 
-			foreach (PropertyInfo property in this.GetType().GetProperties())         {
+			foreach (PropertyInfo property in this.GetType().GetProperties()){
 				if (fields.ContainsKey(property.Name) == false) {
 					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
 				}
@@ -118,20 +118,6 @@ namespace test {
 	/// </summary>
 
 	public class RegisterAccount : Request {
-		string _account_holder_name;
-		public string account_holder_name {
-			get {
-				return this._account_holder_name;
-			}
-			set {
-				if (value == null) {
-					throw new Exception("null not allowed");
-				}
-				if (value != null) {
-				}
-				this._account_holder_name = value;
-			}
-		}
 		System.Double _initial_balance;
 		public System.Double initial_balance {
 			get {
@@ -141,18 +127,30 @@ namespace test {
 				this._initial_balance = value;
 			}
 		}
+		string _account_holder_name;
+		public string account_holder_name {
+			get {
+				return this._account_holder_name;
+			}
+			set {
+				if (value == null) {
+					value = "";
+				}
+				this._account_holder_name = value;
+			}
+		}
 
 		public override string toJson() {
 			List<object> variant = new List<object>();
 			variant.Add("RegisterAccount");
 			Dictionary<string, object> fields = new Dictionary<string, object>();
-			fields.Add("account_holder_name", JSON.toStructure(this.account_holder_name));
 			fields.Add("initial_balance", JSON.toStructure(this.initial_balance));
+			fields.Add("account_holder_name", JSON.toStructure(this.account_holder_name));
 			variant.Add(fields);
 			return JsonConvert.SerializeObject(variant, Formatting.Indented);
 		}
 
-		public override dynamic parseJson(string json) {
+		public override Request parseJson(string json) {
 			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
 
 			if (lst.Count() != 2) {
@@ -170,18 +168,18 @@ namespace test {
 				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
 			}
 
-			foreach (PropertyInfo property in this.GetType().GetProperties())         {
+			foreach (PropertyInfo property in this.GetType().GetProperties()){
 				if (fields.ContainsKey(property.Name) == false) {
 					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
 				}
 			}
 
-			string field_1;
-			field_1 = (string)JSON.parseStructure(fields["account_holder_name"]);
-			this.account_holder_name = field_1;
-			System.Double field_2;
-			field_2 = (System.Double)JSON.parseStructure(fields["initial_balance"]);
-			this.initial_balance = field_2;
+			System.Double field_1;
+			field_1 = (System.Double)JSON.parseStructure(fields["initial_balance"]);
+			this.initial_balance = field_1;
+			string field_2;
+			field_2 = (string)JSON.parseStructure(fields["account_holder_name"]);
+			this.account_holder_name = field_2;
 			return this;
 		}
 
@@ -215,7 +213,7 @@ namespace test {
 			return JsonConvert.SerializeObject(variant, Formatting.Indented);
 		}
 
-		public override dynamic parseJson(string json) {
+		public override Request parseJson(string json) {
 			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
 
 			if (lst.Count() != 2) {
@@ -233,7 +231,7 @@ namespace test {
 				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
 			}
 
-			foreach (PropertyInfo property in this.GetType().GetProperties())         {
+			foreach (PropertyInfo property in this.GetType().GetProperties()){
 				if (fields.ContainsKey(property.Name) == false) {
 					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
 				}
@@ -295,7 +293,7 @@ namespace test {
 			return JsonConvert.SerializeObject(variant, Formatting.Indented);
 		}
 
-		public override dynamic parseJson(string json) {
+		public override Request parseJson(string json) {
 			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
 
 			if (lst.Count() != 2) {
@@ -313,7 +311,7 @@ namespace test {
 				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
 			}
 
-			foreach (PropertyInfo property in this.GetType().GetProperties())         {
+			foreach (PropertyInfo property in this.GetType().GetProperties()){
 				if (fields.ContainsKey(property.Name) == false) {
 					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
 				}
@@ -351,7 +349,7 @@ namespace test {
 			return JsonConvert.SerializeObject(variant, Formatting.Indented);
 		}
 
-		public override dynamic parseJson(string json) {
+		public override Request parseJson(string json) {
 			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
 
 			if (lst.Count() != 2) {
@@ -369,7 +367,7 @@ namespace test {
 				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
 			}
 
-			foreach (PropertyInfo property in this.GetType().GetProperties())         {
+			foreach (PropertyInfo property in this.GetType().GetProperties()){
 				if (fields.ContainsKey(property.Name) == false) {
 					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
 				}
@@ -407,7 +405,7 @@ namespace test {
 				if (value == null) {
 					throw new Exception("null not allowed");
 				}
-				if (value != null) {
+				else {
 				}
 				this._account_holder_name = value;
 			}
@@ -430,14 +428,14 @@ namespace test {
 			return JsonConvert.SerializeObject(fields, Formatting.Indented);
 		}
 
-		public dynamic parseJson(string json) {
-			Dictionary<string, object> fields = JsonConvert.DeserializeObject<                Dictionary<string, object>>(json);
+		public Account parseJson(string json) {
+			Dictionary<string, object> fields = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
 
 			if (this.GetType ().GetProperties ().Count() != fields.Count()) {
 				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
 			}
 
-			foreach (PropertyInfo property in this.GetType().GetProperties())         {
+			foreach (PropertyInfo property in this.GetType().GetProperties()){
 				if (fields.ContainsKey(property.Name) == false) {
 					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
 				}
@@ -466,13 +464,13 @@ namespace test {
 	/// </summary>
 
 	public class Response {
-		public dynamic option = null;
+		public Response option = null;
 
-		public void set_option(object obj) {
+		public void set_option(Response obj) {
 			this.option = obj;
 		}
 
-		public dynamic get_option() {
+		public Response get_option() {
 			return this.option;
 		}
 
@@ -483,7 +481,7 @@ namespace test {
 			return this.option.toJson ();
 		}
 
-		public virtual dynamic parseJson(string json) {
+		public virtual Response parseJson(string json) {
 			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
 			switch (lst [0].ToString ()) {
 			case "Pong":
@@ -534,7 +532,7 @@ namespace test {
 			return JsonConvert.SerializeObject(variant, Formatting.Indented);
 		}
 
-		public override dynamic parseJson(string json) {
+		public override Response parseJson(string json) {
 			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
 
 			if (lst.Count() != 2) {
@@ -552,7 +550,7 @@ namespace test {
 				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
 			}
 
-			foreach (PropertyInfo property in this.GetType().GetProperties())         {
+			foreach (PropertyInfo property in this.GetType().GetProperties()){
 				if (fields.ContainsKey(property.Name) == false) {
 					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
 				}
@@ -581,7 +579,7 @@ namespace test {
 				if (value == null) {
 					throw new Exception("null not allowed");
 				}
-				if (value != null) {
+				else {
 				}
 				this._message = value;
 			}
@@ -596,7 +594,7 @@ namespace test {
 			return JsonConvert.SerializeObject(variant, Formatting.Indented);
 		}
 
-		public override dynamic parseJson(string json) {
+		public override Response parseJson(string json) {
 			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
 
 			if (lst.Count() != 2) {
@@ -614,7 +612,7 @@ namespace test {
 				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
 			}
 
-			foreach (PropertyInfo property in this.GetType().GetProperties())         {
+			foreach (PropertyInfo property in this.GetType().GetProperties()){
 				if (fields.ContainsKey(property.Name) == false) {
 					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
 				}
@@ -646,7 +644,7 @@ namespace test {
 				if (value == null) {
 					throw new Exception("null not allowed");
 				}
-				if (value != null) {
+				else {
 				}
 				this._account = value;
 			}
@@ -661,7 +659,7 @@ namespace test {
 			return JsonConvert.SerializeObject(variant, Formatting.Indented);
 		}
 
-		public override dynamic parseJson(string json) {
+		public override Response parseJson(string json) {
 			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
 
 			if (lst.Count() != 2) {
@@ -679,7 +677,7 @@ namespace test {
 				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
 			}
 
-			foreach (PropertyInfo property in this.GetType().GetProperties())         {
+			foreach (PropertyInfo property in this.GetType().GetProperties()){
 				if (fields.ContainsKey(property.Name) == false) {
 					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
 				}
@@ -722,7 +720,7 @@ namespace test {
 			return JsonConvert.SerializeObject(variant, Formatting.Indented);
 		}
 
-		public override dynamic parseJson(string json) {
+		public override Response parseJson(string json) {
 			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
 
 			if (lst.Count() != 2) {
@@ -740,7 +738,7 @@ namespace test {
 				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
 			}
 
-			foreach (PropertyInfo property in this.GetType().GetProperties())         {
+			foreach (PropertyInfo property in this.GetType().GetProperties()){
 				if (fields.ContainsKey(property.Name) == false) {
 					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
 				}
@@ -769,7 +767,7 @@ namespace test {
 				if (value == null) {
 					throw new Exception("null not allowed");
 				}
-				if (value != null) {
+				else {
 				}
 				this._message = value;
 			}
@@ -784,7 +782,7 @@ namespace test {
 			return JsonConvert.SerializeObject(variant, Formatting.Indented);
 		}
 
-		public override dynamic parseJson(string json) {
+		public override Response parseJson(string json) {
 			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
 
 			if (lst.Count() != 2) {
@@ -802,7 +800,7 @@ namespace test {
 				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
 			}
 
-			foreach (PropertyInfo property in this.GetType().GetProperties())         {
+			foreach (PropertyInfo property in this.GetType().GetProperties()){
 				if (fields.ContainsKey(property.Name) == false) {
 					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
 				}
@@ -834,12 +832,12 @@ namespace test {
 				if (value == null) {
 					throw new Exception("null not allowed");
 				}
-				if (value != null) {
+				else {
 					foreach(var value_1 in value) {
 						if (value_1 == null) {
 							throw new Exception("null not allowed");
 						}
-						if (value_1 != null) {
+						else {
 						}
 					}
 				}
@@ -856,7 +854,7 @@ namespace test {
 			return JsonConvert.SerializeObject(variant, Formatting.Indented);
 		}
 
-		public override dynamic parseJson(string json) {
+		public override Response parseJson(string json) {
 			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
 
 			if (lst.Count() != 2) {
@@ -874,7 +872,7 @@ namespace test {
 				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
 			}
 
-			foreach (PropertyInfo property in this.GetType().GetProperties())         {
+			foreach (PropertyInfo property in this.GetType().GetProperties()){
 				if (fields.ContainsKey(property.Name) == false) {
 					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
 				}
