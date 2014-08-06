@@ -76,6 +76,7 @@ namespace TestApp
 		public static void Main (string[] args)
 		{
 			try {
+
 				Request request = new Request();
 				Response response = new Response();
 
@@ -95,6 +96,8 @@ namespace TestApp
 				response.set_option((Response)Util.api_request(request, response));
 			} catch (WebException ex) {
 				Console.WriteLine ("http errror: " + ex.Message);
+			} catch (Exception ex) {
+				Console.WriteLine (ex.Message);
 			}
 
 			Console.ReadLine ();

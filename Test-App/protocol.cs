@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace test {
 
+
 	/// <summary>
 	/// Request
 	/// </summary>
@@ -66,6 +67,7 @@ namespace test {
 		}
 	}
 
+
 	/// <summary>
 	/// Ping
 	/// </summary>
@@ -113,6 +115,7 @@ namespace test {
 
 	}
 
+
 	/// <summary>
 	/// RegisterAccount
 	/// </summary>
@@ -124,7 +127,11 @@ namespace test {
 				return this._initial_balance;
 			}
 			set {
-				this._initial_balance = value;
+				try {
+					this._initial_balance = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field RegisterAccount.initial_balance error message: " + ex.Message);
+				}
 			}
 		}
 		string _account_holder_name;
@@ -133,10 +140,14 @@ namespace test {
 				return this._account_holder_name;
 			}
 			set {
-				if (value == null) {
-					value = "";
+				try {
+					if (value == null) {
+						throw new Exception("null not allowed");
+					}
+					this._account_holder_name = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field RegisterAccount.account_holder_name error message: " + ex.Message);
 				}
-				this._account_holder_name = value;
 			}
 		}
 
@@ -189,6 +200,7 @@ namespace test {
 
 	}
 
+
 	/// <summary>
 	/// LookupAccount
 	/// </summary>
@@ -200,7 +212,11 @@ namespace test {
 				return this._account_id;
 			}
 			set {
-				this._account_id = value;
+				try {
+					this._account_id = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field LookupAccount.account_id error message: " + ex.Message);
+				}
 			}
 		}
 
@@ -249,6 +265,7 @@ namespace test {
 
 	}
 
+
 	/// <summary>
 	/// TransferAmount
 	/// </summary>
@@ -260,7 +277,11 @@ namespace test {
 				return this._from_account_id;
 			}
 			set {
-				this._from_account_id = value;
+				try {
+					this._from_account_id = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field TransferAmount.from_account_id error message: " + ex.Message);
+				}
 			}
 		}
 		System.UInt64 _to_account_id;
@@ -269,7 +290,11 @@ namespace test {
 				return this._to_account_id;
 			}
 			set {
-				this._to_account_id = value;
+				try {
+					this._to_account_id = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field TransferAmount.to_account_id error message: " + ex.Message);
+				}
 			}
 		}
 		System.Double _amount;
@@ -278,7 +303,11 @@ namespace test {
 				return this._amount;
 			}
 			set {
-				this._amount = value;
+				try {
+					this._amount = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field TransferAmount.amount error message: " + ex.Message);
+				}
 			}
 		}
 
@@ -335,6 +364,7 @@ namespace test {
 
 	}
 
+
 	/// <summary>
 	/// ListAllAccounts
 	/// </summary>
@@ -382,6 +412,7 @@ namespace test {
 
 	}
 
+
 	/// <summary>
 	/// Account
 	/// </summary>
@@ -393,7 +424,11 @@ namespace test {
 				return this._id;
 			}
 			set {
-				this._id = value;
+				try {
+					this._id = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Account.id error message: " + ex.Message);
+				}
 			}
 		}
 		string _account_holder_name;
@@ -402,12 +437,14 @@ namespace test {
 				return this._account_holder_name;
 			}
 			set {
-				if (value == null) {
-					throw new Exception("null not allowed");
+				try {
+					if (value == null) {
+						throw new Exception("null not allowed");
+					}
+					this._account_holder_name = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Account.account_holder_name error message: " + ex.Message);
 				}
-				else {
-				}
-				this._account_holder_name = value;
 			}
 		}
 		System.Double _balance;
@@ -416,7 +453,11 @@ namespace test {
 				return this._balance;
 			}
 			set {
-				this._balance = value;
+				try {
+					this._balance = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Account.balance error message: " + ex.Message);
+				}
 			}
 		}
 
@@ -458,6 +499,7 @@ namespace test {
 		}
 
 	}
+
 
 	/// <summary>
 	/// Response
@@ -518,6 +560,7 @@ namespace test {
 		}
 	}
 
+
 	/// <summary>
 	/// Pong
 	/// </summary>
@@ -565,6 +608,7 @@ namespace test {
 
 	}
 
+
 	/// <summary>
 	/// Error
 	/// </summary>
@@ -576,12 +620,14 @@ namespace test {
 				return this._message;
 			}
 			set {
-				if (value == null) {
-					throw new Exception("null not allowed");
+				try {
+					if (value == null) {
+						throw new Exception("null not allowed");
+					}
+					this._message = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Error.message error message: " + ex.Message);
 				}
-				else {
-				}
-				this._message = value;
 			}
 		}
 
@@ -630,6 +676,7 @@ namespace test {
 
 	}
 
+
 	/// <summary>
 	/// AccountInfo
 	/// </summary>
@@ -641,12 +688,14 @@ namespace test {
 				return this._account;
 			}
 			set {
-				if (value == null) {
-					throw new Exception("null not allowed");
+				try {
+					if (value == null) {
+						throw new Exception("null not allowed");
+					}
+					this._account = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field AccountInfo.account error message: " + ex.Message);
 				}
-				else {
-				}
-				this._account = value;
 			}
 		}
 
@@ -706,6 +755,7 @@ namespace test {
 
 	}
 
+
 	/// <summary>
 	/// TransferSuccess
 	/// </summary>
@@ -753,6 +803,7 @@ namespace test {
 
 	}
 
+
 	/// <summary>
 	/// TransferFailed
 	/// </summary>
@@ -764,12 +815,14 @@ namespace test {
 				return this._message;
 			}
 			set {
-				if (value == null) {
-					throw new Exception("null not allowed");
+				try {
+					if (value == null) {
+						throw new Exception("null not allowed");
+					}
+					this._message = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field TransferFailed.message error message: " + ex.Message);
 				}
-				else {
-				}
-				this._message = value;
 			}
 		}
 
@@ -818,6 +871,7 @@ namespace test {
 
 	}
 
+
 	/// <summary>
 	/// AllAccounts
 	/// </summary>
@@ -829,19 +883,19 @@ namespace test {
 				return this._accounts;
 			}
 			set {
-				if (value == null) {
-					throw new Exception("null not allowed");
-				}
-				else {
+				try {
+					if (value == null) {
+						throw new Exception("null not allowed");
+					}
 					foreach(var value_1 in value) {
 						if (value_1 == null) {
 							throw new Exception("null not allowed");
 						}
-						else {
-						}
 					}
+					this._accounts = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field AllAccounts.accounts error message: " + ex.Message);
 				}
-				this._accounts = value;
 			}
 		}
 
@@ -904,6 +958,7 @@ namespace test {
 		}
 
 	}
+
 
 	/// <summary>
 	/// JSON
