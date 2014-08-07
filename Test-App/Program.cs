@@ -13,18 +13,27 @@ namespace TestApp
 {
 	using AccountId = System.UInt32;
 
+	class Test {
+		private List<Int16> _int_test;
+		public List<Int16> int_test {
+			get {
+				return this._int_test;
+			}
+			set {
+					this._int_test = value;
+			}
+		}
+
+	}
+
 	class MainClass
 	{
-		public void init_array (Array arr, int size)
-		{
 
-		}
-
-		public enum TESTE
-		{
-			TT,
-			TT1
-		}
+//		public enum TESTE
+//		{
+//			TT,
+//			TT1
+//		}
 
 //		public static Account getAccount() {
 //			Account src = new Account();
@@ -73,27 +82,61 @@ namespace TestApp
 //			return src;
 //		}
 
+		public static void printInt(int x) {
+			try {
+				Console.WriteLine (x);
+			}
+			catch(Exception ex) {
+				throw new Exception ("error setting printInt error:" + ex.Message);
+			}
+		}
+
 		public static void Main (string[] args)
 		{
 			try {
+//				Ping pg = new Ping();
+//				Console.WriteLine(pg.GetType().ToString());
+//				Console.WriteLine(pg.GetType().BaseType.ToString());
+//				Account acc = new Account();
+//				Console.WriteLine(acc.GetType().ToString());
+//				Console.WriteLine(acc.GetType().BaseType.ToString());
+//
+//				if (acc.GetType().BaseType == typeof(Request)) {
+//					Console.WriteLine("acc yes it is ");
+//				} else {
+//					Console.WriteLine("acc no it is ");
+//				}
+//
+//				if (pg.GetType().BaseType == typeof(Request)) {
+//					Console.WriteLine("pg yes ");
+//				}
+//				else {
+//					Console.WriteLine("pg no ");
+//				}
+//				int? i = null;
+//				bool? bln = null;
+//				Tuple<int> tup = null;
 
-				Request request = new Request();
-				Response response = new Response();
-
-				ListAllAccounts list_all = new ListAllAccounts();
-				request.set_option(list_all);
-				response.set_option((Response)Util.api_request(request, response));
-
-				RegisterAccount register = new RegisterAccount();
-				register.account_holder_name = null;
-				register.initial_balance = 100;
-				request.set_option(register);
-				response.set_option((Response)Util.api_request(request, response));
-
-				LookupAccount lk = new LookupAccount ();
-				lk.account_id = ((AccountInfo)response.get_option()).account.id;
-				request.set_option(lk);
-				response.set_option((Response)Util.api_request(request, response));
+//				Request request = new Request();
+//				Response response = new Response();
+//
+//				ListAllAccounts list_all = new ListAllAccounts();
+//				request.set_option(list_all);
+//				response.set_option((Response)Util.api_request(request, response));
+//				Console.WriteLine(response.toJson());
+//
+//				RegisterAccount register = new RegisterAccount();
+//				register.account_holder_name = null;
+//				register.initial_balance = 100;
+//				request.set_option(register);
+//				response.set_option((Response)Util.api_request(request, response));
+//				Console.WriteLine(response.toJson());
+//
+//				LookupAccount lk = new LookupAccount ();
+//				lk.account_id = ((AccountInfo)response.get_option()).account.id;
+//				request.set_option(lk);
+//				response.set_option((Response)Util.api_request(request, response));
+//				Console.WriteLine(response.toJson());
 			} catch (WebException ex) {
 				Console.WriteLine ("http errror: " + ex.Message);
 			} catch (Exception ex) {

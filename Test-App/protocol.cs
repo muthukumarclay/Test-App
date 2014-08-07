@@ -12,414 +12,22 @@ namespace test {
 
 
 	/// <summary>
-	/// Request
+	/// TestEnum
 	/// </summary>
 
-	public class Request {
-		public Request option = null;
-
-		public void set_option(Request obj) {
-			this.option = obj;
-		}
-
-		public Request get_option() {
-			return this.option;
-		}
-
-		public virtual string toJson() {
-			if (this.option == null) {
-				throw new Exception ("null not allowed");
-			}
-			return this.option.toJson ();
-		}
-
-		public virtual Request parseJson(string json) {
-			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
-			switch (lst [0].ToString ()) {
-			case "Ping":
-				set_option (new Ping());
-				break;
-			case "RegisterAccount":
-				set_option (new RegisterAccount());
-				break;
-			case "LookupAccount":
-				set_option (new LookupAccount());
-				break;
-			case "TransferAmount":
-				set_option (new TransferAmount());
-				break;
-			case "ListAllAccounts":
-				set_option (new ListAllAccounts());
-				break;
-			default :
-				throw new Exception ("invalid type");
-			}
-			this.option.parseJson (json);
-			return get_option ();
-		}
-
-		public override string ToString () {
-			if (this.get_option () == null) {
-				return "Request";
-			} else {
-				return this.get_option ().toJson ();
-			}
-		}
+	public enum TestEnum {
+		Test1 = 0,
+		Test2 = 1
 	}
 
 
 	/// <summary>
-	/// Ping
+	/// Dummy
 	/// </summary>
 
-	public class Ping : Request {
-
-		public override string toJson() {
-			List<object> variant = new List<object>();
-			variant.Add("Ping");
-			Dictionary<string, object> fields = new Dictionary<string, object>();
-			variant.Add(fields);
-			return JsonConvert.SerializeObject(variant, Formatting.Indented);
-		}
-
-		public override Request parseJson(string json) {
-			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
-
-			if (lst.Count() != 2) {
-				throw new Exception (String.Format ("expected the list with the length {0} but got {1}", 2, lst.Count()));
-			}
-
-			if (lst[0].ToString() != this.GetType().Name) {
-				throw new Exception(String.Format("expected the class identifier {0} but got {1}", this.GetType ().ToString (), lst [0].ToString ()));
-			}
-
-			Dictionary<string, object> fields = lst[1].ToObject<Dictionary<string, object>>();
-
-
-			if (this.GetType ().GetProperties ().Count() != fields.Count()) {
-				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
-			}
-
-			foreach (PropertyInfo property in this.GetType().GetProperties()){
-				if (fields.ContainsKey(property.Name) == false) {
-					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
-				}
-			}
-
-			return this;
-		}
-
-		public override string ToString () {
-			return this.toJson();
-		}
-
-	}
-
-
-	/// <summary>
-	/// RegisterAccount
-	/// </summary>
-
-	public class RegisterAccount : Request {
-		System.Double _initial_balance;
-		public System.Double initial_balance {
-			get {
-				return this._initial_balance;
-			}
-			set {
-				try {
-					this._initial_balance = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field RegisterAccount.initial_balance error message: " + ex.Message);
-				}
-			}
-		}
-		string _account_holder_name;
-		public string account_holder_name {
-			get {
-				return this._account_holder_name;
-			}
-			set {
-				try {
-					if (value == null) {
-						throw new Exception("null not allowed");
-					}
-					this._account_holder_name = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field RegisterAccount.account_holder_name error message: " + ex.Message);
-				}
-			}
-		}
-
-		public override string toJson() {
-			List<object> variant = new List<object>();
-			variant.Add("RegisterAccount");
-			Dictionary<string, object> fields = new Dictionary<string, object>();
-			fields.Add("initial_balance", JSON.toStructure(this.initial_balance));
-			fields.Add("account_holder_name", JSON.toStructure(this.account_holder_name));
-			variant.Add(fields);
-			return JsonConvert.SerializeObject(variant, Formatting.Indented);
-		}
-
-		public override Request parseJson(string json) {
-			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
-
-			if (lst.Count() != 2) {
-				throw new Exception (String.Format ("expected the list with the length {0} but got {1}", 2, lst.Count()));
-			}
-
-			if (lst[0].ToString() != this.GetType().Name) {
-				throw new Exception(String.Format("expected the class identifier {0} but got {1}", this.GetType ().ToString (), lst [0].ToString ()));
-			}
-
-			Dictionary<string, object> fields = lst[1].ToObject<Dictionary<string, object>>();
-
-
-			if (this.GetType ().GetProperties ().Count() != fields.Count()) {
-				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
-			}
-
-			foreach (PropertyInfo property in this.GetType().GetProperties()){
-				if (fields.ContainsKey(property.Name) == false) {
-					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
-				}
-			}
-
-			System.Double field_1;
-			field_1 = (System.Double)JSON.parseStructure(fields["initial_balance"]);
-			this.initial_balance = field_1;
-			string field_2;
-			field_2 = (string)JSON.parseStructure(fields["account_holder_name"]);
-			this.account_holder_name = field_2;
-			return this;
-		}
-
-		public override string ToString () {
-			return this.toJson();
-		}
-
-	}
-
-
-	/// <summary>
-	/// LookupAccount
-	/// </summary>
-
-	public class LookupAccount : Request {
-		System.UInt64 _account_id;
-		public System.UInt64 account_id {
-			get {
-				return this._account_id;
-			}
-			set {
-				try {
-					this._account_id = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field LookupAccount.account_id error message: " + ex.Message);
-				}
-			}
-		}
-
-		public override string toJson() {
-			List<object> variant = new List<object>();
-			variant.Add("LookupAccount");
-			Dictionary<string, object> fields = new Dictionary<string, object>();
-			fields.Add("account_id", JSON.toStructure(this.account_id));
-			variant.Add(fields);
-			return JsonConvert.SerializeObject(variant, Formatting.Indented);
-		}
-
-		public override Request parseJson(string json) {
-			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
-
-			if (lst.Count() != 2) {
-				throw new Exception (String.Format ("expected the list with the length {0} but got {1}", 2, lst.Count()));
-			}
-
-			if (lst[0].ToString() != this.GetType().Name) {
-				throw new Exception(String.Format("expected the class identifier {0} but got {1}", this.GetType ().ToString (), lst [0].ToString ()));
-			}
-
-			Dictionary<string, object> fields = lst[1].ToObject<Dictionary<string, object>>();
-
-
-			if (this.GetType ().GetProperties ().Count() != fields.Count()) {
-				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
-			}
-
-			foreach (PropertyInfo property in this.GetType().GetProperties()){
-				if (fields.ContainsKey(property.Name) == false) {
-					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
-				}
-			}
-
-			System.UInt64 field_1;
-			field_1 = (System.UInt64)JSON.parseStructure(fields["account_id"]);
-			this.account_id = field_1;
-			return this;
-		}
-
-		public override string ToString () {
-			return this.toJson();
-		}
-
-	}
-
-
-	/// <summary>
-	/// TransferAmount
-	/// </summary>
-
-	public class TransferAmount : Request {
-		System.UInt64 _from_account_id;
-		public System.UInt64 from_account_id {
-			get {
-				return this._from_account_id;
-			}
-			set {
-				try {
-					this._from_account_id = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field TransferAmount.from_account_id error message: " + ex.Message);
-				}
-			}
-		}
-		System.UInt64 _to_account_id;
-		public System.UInt64 to_account_id {
-			get {
-				return this._to_account_id;
-			}
-			set {
-				try {
-					this._to_account_id = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field TransferAmount.to_account_id error message: " + ex.Message);
-				}
-			}
-		}
-		System.Double _amount;
-		public System.Double amount {
-			get {
-				return this._amount;
-			}
-			set {
-				try {
-					this._amount = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field TransferAmount.amount error message: " + ex.Message);
-				}
-			}
-		}
-
-		public override string toJson() {
-			List<object> variant = new List<object>();
-			variant.Add("TransferAmount");
-			Dictionary<string, object> fields = new Dictionary<string, object>();
-			fields.Add("from_account_id", JSON.toStructure(this.from_account_id));
-			fields.Add("to_account_id", JSON.toStructure(this.to_account_id));
-			fields.Add("amount", JSON.toStructure(this.amount));
-			variant.Add(fields);
-			return JsonConvert.SerializeObject(variant, Formatting.Indented);
-		}
-
-		public override Request parseJson(string json) {
-			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
-
-			if (lst.Count() != 2) {
-				throw new Exception (String.Format ("expected the list with the length {0} but got {1}", 2, lst.Count()));
-			}
-
-			if (lst[0].ToString() != this.GetType().Name) {
-				throw new Exception(String.Format("expected the class identifier {0} but got {1}", this.GetType ().ToString (), lst [0].ToString ()));
-			}
-
-			Dictionary<string, object> fields = lst[1].ToObject<Dictionary<string, object>>();
-
-
-			if (this.GetType ().GetProperties ().Count() != fields.Count()) {
-				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
-			}
-
-			foreach (PropertyInfo property in this.GetType().GetProperties()){
-				if (fields.ContainsKey(property.Name) == false) {
-					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
-				}
-			}
-
-			System.UInt64 field_1;
-			field_1 = (System.UInt64)JSON.parseStructure(fields["from_account_id"]);
-			this.from_account_id = field_1;
-			System.UInt64 field_2;
-			field_2 = (System.UInt64)JSON.parseStructure(fields["to_account_id"]);
-			this.to_account_id = field_2;
-			System.Double field_3;
-			field_3 = (System.Double)JSON.parseStructure(fields["amount"]);
-			this.amount = field_3;
-			return this;
-		}
-
-		public override string ToString () {
-			return this.toJson();
-		}
-
-	}
-
-
-	/// <summary>
-	/// ListAllAccounts
-	/// </summary>
-
-	public class ListAllAccounts : Request {
-
-		public override string toJson() {
-			List<object> variant = new List<object>();
-			variant.Add("ListAllAccounts");
-			Dictionary<string, object> fields = new Dictionary<string, object>();
-			variant.Add(fields);
-			return JsonConvert.SerializeObject(variant, Formatting.Indented);
-		}
-
-		public override Request parseJson(string json) {
-			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
-
-			if (lst.Count() != 2) {
-				throw new Exception (String.Format ("expected the list with the length {0} but got {1}", 2, lst.Count()));
-			}
-
-			if (lst[0].ToString() != this.GetType().Name) {
-				throw new Exception(String.Format("expected the class identifier {0} but got {1}", this.GetType ().ToString (), lst [0].ToString ()));
-			}
-
-			Dictionary<string, object> fields = lst[1].ToObject<Dictionary<string, object>>();
-
-
-			if (this.GetType ().GetProperties ().Count() != fields.Count()) {
-				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
-			}
-
-			foreach (PropertyInfo property in this.GetType().GetProperties()){
-				if (fields.ContainsKey(property.Name) == false) {
-					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
-				}
-			}
-
-			return this;
-		}
-
-		public override string ToString () {
-			return this.toJson();
-		}
-
-	}
-
-
-	/// <summary>
-	/// Account
-	/// </summary>
-
-	public class Account {
-		System.UInt64 _id;
-		public System.UInt64 id {
+	public class Dummy {
+		UInt64 _id;
+		public UInt64 id {
 			get {
 				return this._id;
 			}
@@ -427,7 +35,7 @@ namespace test {
 				try {
 					this._id = value;
 				} catch (Exception ex) {
-					throw new Exception ("error setting field Account.id error message: " + ex.Message);
+					throw new Exception ("error setting field Dummy.id error message: " + ex.Message);
 				}
 			}
 		}
@@ -438,17 +46,14 @@ namespace test {
 			}
 			set {
 				try {
-					if (value == null) {
-						throw new Exception("null not allowed");
-					}
 					this._account_holder_name = value;
 				} catch (Exception ex) {
-					throw new Exception ("error setting field Account.account_holder_name error message: " + ex.Message);
+					throw new Exception ("error setting field Dummy.account_holder_name error message: " + ex.Message);
 				}
 			}
 		}
-		System.Double _balance;
-		public System.Double balance {
+		Double? _balance;
+		public Double? balance {
 			get {
 				return this._balance;
 			}
@@ -456,7 +61,294 @@ namespace test {
 				try {
 					this._balance = value;
 				} catch (Exception ex) {
-					throw new Exception ("error setting field Account.balance error message: " + ex.Message);
+					throw new Exception ("error setting field Dummy.balance error message: " + ex.Message);
+				}
+			}
+		}
+		SByte? _test1;
+		public SByte? test1 {
+			get {
+				return this._test1;
+			}
+			set {
+				try {
+					this._test1 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test1 error message: " + ex.Message);
+				}
+			}
+		}
+		Int16? _test2;
+		public Int16? test2 {
+			get {
+				return this._test2;
+			}
+			set {
+				try {
+					this._test2 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test2 error message: " + ex.Message);
+				}
+			}
+		}
+		Int32? _test3;
+		public Int32? test3 {
+			get {
+				return this._test3;
+			}
+			set {
+				try {
+					this._test3 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test3 error message: " + ex.Message);
+				}
+			}
+		}
+		Int64? _test4;
+		public Int64? test4 {
+			get {
+				return this._test4;
+			}
+			set {
+				try {
+					this._test4 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test4 error message: " + ex.Message);
+				}
+			}
+		}
+		Byte? _test5;
+		public Byte? test5 {
+			get {
+				return this._test5;
+			}
+			set {
+				try {
+					this._test5 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test5 error message: " + ex.Message);
+				}
+			}
+		}
+		UInt16? _test6;
+		public UInt16? test6 {
+			get {
+				return this._test6;
+			}
+			set {
+				try {
+					this._test6 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test6 error message: " + ex.Message);
+				}
+			}
+		}
+		UInt32? _test7;
+		public UInt32? test7 {
+			get {
+				return this._test7;
+			}
+			set {
+				try {
+					this._test7 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test7 error message: " + ex.Message);
+				}
+			}
+		}
+		UInt64? _test8;
+		public UInt64? test8 {
+			get {
+				return this._test8;
+			}
+			set {
+				try {
+					this._test8 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test8 error message: " + ex.Message);
+				}
+			}
+		}
+		bool? _test9;
+		public bool? test9 {
+			get {
+				return this._test9;
+			}
+			set {
+				try {
+					this._test9 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test9 error message: " + ex.Message);
+				}
+			}
+		}
+		Single? _test99;
+		public Single? test99 {
+			get {
+				return this._test99;
+			}
+			set {
+				try {
+					this._test99 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test99 error message: " + ex.Message);
+				}
+			}
+		}
+		byte[] _test11;
+		public byte[] test11 {
+			get {
+				return this._test11;
+			}
+			set {
+				try {
+					this._test11 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test11 error message: " + ex.Message);
+				}
+			}
+		}
+		string _test13;
+		public string test13 {
+			get {
+				return this._test13;
+			}
+			set {
+				try {
+					this._test13 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test13 error message: " + ex.Message);
+				}
+			}
+		}
+		List<byte[]> _test14 = new List<byte[]>();
+		public List<byte[]> test14 {
+			get {
+				return this._test14;
+			}
+			set {
+				try {
+					if (value != null) {
+						if (value.Count() != 5) {
+							throw new Exception(String.Format("expected size 5 but received {0}", value.Count));
+						}
+						foreach(var value_2 in value) {
+							if (value_2 == null) {
+								throw new Exception("null not allowed");
+							}
+						}
+					}
+					this._test14 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test14 error message: " + ex.Message);
+				}
+			}
+		}
+		Tuple<List<byte[]>, Int64, Int16> _test15;
+		public Tuple<List<byte[]>, Int64, Int16> test15 {
+			get {
+				return this._test15;
+			}
+			set {
+				try {
+					if (value != null) {
+						List<byte[]> value_inner_item1 = new List<byte[]>();
+						value_inner_item1 =(List<byte[]>)value.Item1;
+						if (value_inner_item1 == null) {
+							throw new Exception("null not allowed");
+						}
+						if (value_inner_item1.Count() != 5) {
+							throw new Exception(String.Format("expected size 5 but received {0}", value_inner_item1.Count));
+						}
+						foreach(var value_3 in value_inner_item1) {
+							if (value_3 == null) {
+								throw new Exception("null not allowed");
+							}
+						}
+						Int64 value_inner_item2;
+						value_inner_item2 =(Int64)value.Item2;
+						if (value_inner_item2 == null) {
+							throw new Exception("null not allowed");
+						}
+						Int16 value_inner_item3;
+						value_inner_item3 =(Int16)value.Item3;
+						if (value_inner_item3 == null) {
+							throw new Exception("null not allowed");
+						}
+					}
+					this._test15 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test15 error message: " + ex.Message);
+				}
+			}
+		}
+		List<Double> _test16 = new List<Double>();
+		public List<Double> test16 {
+			get {
+				return this._test16;
+			}
+			set {
+				try {
+					foreach(var value_1 in value) {
+						if (value_1 == null) {
+							throw new Exception("null not allowed");
+						}
+					}
+					this._test16 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test16 error message: " + ex.Message);
+				}
+			}
+		}
+		HashSet<Double> _test17 = new HashSet<Double>();
+		public HashSet<Double> test17 {
+			get {
+				return this._test17;
+			}
+			set {
+				try {
+					foreach(var value_1 in value) {
+						if (value_1 == null) {
+							throw new Exception("null not allowed");
+						}
+					}
+					this._test17 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test17 error message: " + ex.Message);
+				}
+			}
+		}
+		Dictionary<Int64, string> _test18 = new Dictionary<Int64, string>();
+		public Dictionary<Int64, string> test18 {
+			get {
+				return this._test18;
+			}
+			set {
+				try {
+					foreach(var value_1 in value) {
+						if (value_1.Key == null) {
+							throw new Exception("null not allowed");
+						}
+						if (value_1.Value == null) {
+							throw new Exception("null not allowed");
+						}
+					}
+					this._test18 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test18 error message: " + ex.Message);
+				}
+			}
+		}
+		TestEnum _test19;
+		public TestEnum test19 {
+			get {
+				return this._test19;
+			}
+			set {
+				try {
+					this._test19 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test19 error message: " + ex.Message);
 				}
 			}
 		}
@@ -466,10 +358,28 @@ namespace test {
 			fields.Add("id", JSON.toStructure(this.id));
 			fields.Add("account_holder_name", JSON.toStructure(this.account_holder_name));
 			fields.Add("balance", JSON.toStructure(this.balance));
+			fields.Add("test1", JSON.toStructure(this.test1));
+			fields.Add("test2", JSON.toStructure(this.test2));
+			fields.Add("test3", JSON.toStructure(this.test3));
+			fields.Add("test4", JSON.toStructure(this.test4));
+			fields.Add("test5", JSON.toStructure(this.test5));
+			fields.Add("test6", JSON.toStructure(this.test6));
+			fields.Add("test7", JSON.toStructure(this.test7));
+			fields.Add("test8", JSON.toStructure(this.test8));
+			fields.Add("test9", JSON.toStructure(this.test9));
+			fields.Add("test99", JSON.toStructure(this.test99));
+			fields.Add("test11", JSON.toStructure(this.test11));
+			fields.Add("test13", JSON.toStructure(this.test13));
+			fields.Add("test14", JSON.toStructure(this.test14));
+			fields.Add("test15", JSON.toStructure(this.test15));
+			fields.Add("test16", JSON.toStructure(this.test16));
+			fields.Add("test17", JSON.toStructure(this.test17));
+			fields.Add("test18", JSON.toStructure(this.test18));
+			fields.Add("test19", JSON.toStructure(this.test19));
 			return JsonConvert.SerializeObject(fields, Formatting.Indented);
 		}
 
-		public Account parseJson(string json) {
+		public Dummy parseJson(string json) {
 			Dictionary<string, object> fields = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
 
 			if (this.GetType ().GetProperties ().Count() != fields.Count()) {
@@ -482,474 +392,105 @@ namespace test {
 				}
 			}
 
-			System.UInt64 field_1;
-			field_1 = (System.UInt64)JSON.parseStructure(fields["id"]);
+			UInt64 field_1;
+			field_1 = (UInt64)JSON.parseStructure(fields["id"]);
 			this.id = field_1;
 			string field_2;
 			field_2 = (string)JSON.parseStructure(fields["account_holder_name"]);
 			this.account_holder_name = field_2;
-			System.Double field_3;
-			field_3 = (System.Double)JSON.parseStructure(fields["balance"]);
-			this.balance = field_3;
-			return this;
-		}
-
-		public override string ToString () {
-			return this.toJson();
-		}
-
-	}
-
-
-	/// <summary>
-	/// Response
-	/// </summary>
-
-	public class Response {
-		public Response option = null;
-
-		public void set_option(Response obj) {
-			this.option = obj;
-		}
-
-		public Response get_option() {
-			return this.option;
-		}
-
-		public virtual string toJson() {
-			if (this.option == null) {
-				throw new Exception ("null not allowed");
+			Double? field_4;
+			field_4 = (Double)JSON.parseStructure(fields["balance"]);
+			this.balance = field_4;
+			SByte? field_6;
+			field_6 = (SByte)JSON.parseStructure(fields["test1"]);
+			this.test1 = field_6;
+			Int16? field_8;
+			field_8 = (Int16)JSON.parseStructure(fields["test2"]);
+			this.test2 = field_8;
+			Int32? field_10;
+			field_10 = (Int32)JSON.parseStructure(fields["test3"]);
+			this.test3 = field_10;
+			Int64? field_12;
+			field_12 = (Int64)JSON.parseStructure(fields["test4"]);
+			this.test4 = field_12;
+			Byte? field_14;
+			field_14 = (Byte)JSON.parseStructure(fields["test5"]);
+			this.test5 = field_14;
+			UInt16? field_16;
+			field_16 = (UInt16)JSON.parseStructure(fields["test6"]);
+			this.test6 = field_16;
+			UInt32? field_18;
+			field_18 = (UInt32)JSON.parseStructure(fields["test7"]);
+			this.test7 = field_18;
+			UInt64? field_20;
+			field_20 = (UInt64)JSON.parseStructure(fields["test8"]);
+			this.test8 = field_20;
+			bool? field_22;
+			field_22 = (bool)JSON.parseStructure(fields["test9"]);
+			this.test9 = field_22;
+			Single? field_24;
+			field_24 = (Single)JSON.parseStructure(fields["test99"]);
+			this.test99 = field_24;
+			byte[] field_26;
+			field_26 = UTF8Encoding.UTF8.GetBytes((string)JSON.parseStructure(fields["test11"]));
+			this.test11 = field_26;
+			string field_28;
+			field_28 = (string)JSON.parseStructure(fields["test13"]);
+			this.test13 = field_28;
+			List<byte[]> field_30 = new List<byte[]>();
+			foreach(var value_32 in JSON.parseStructure(fields["test14"])) {
+				byte[] value_32_32;
+				value_32_32 = UTF8Encoding.UTF8.GetBytes((string)JSON.parseStructure(value_32));
+				field_30.Add(value_32_32);
 			}
-			return this.option.toJson ();
-		}
-
-		public virtual Response parseJson(string json) {
-			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
-			switch (lst [0].ToString ()) {
-			case "Pong":
-				set_option (new Pong());
-				break;
-			case "Error":
-				set_option (new Error());
-				break;
-			case "AccountInfo":
-				set_option (new AccountInfo());
-				break;
-			case "TransferSuccess":
-				set_option (new TransferSuccess());
-				break;
-			case "TransferFailed":
-				set_option (new TransferFailed());
-				break;
-			case "AllAccounts":
-				set_option (new AllAccounts());
-				break;
-			default :
-				throw new Exception ("invalid type");
+			this.test14 = field_30;
+			Tuple<List<byte[]>, Int64, Int16> field_33;
+			List<object> value_35 = JSON.parseStructure(fields["test15"]);
+			if(value_35.Count() != 3) {
+				throw new Exception(String.Format("expected length {0} but received {1}", 3, value_35.Count()));
 			}
-			this.option.parseJson (json);
-			return get_option ();
-		}
-
-		public override string ToString () {
-			if (this.get_option () == null) {
-				return "Response";
-			} else {
-				return this.get_option ().toJson ();
+			List<byte[]> value_35_0 = new List<byte[]>();
+			foreach(var value_36 in JSON.parseStructure(value_35[0])) {
+				byte[] value_36_36;
+				value_36_36 = UTF8Encoding.UTF8.GetBytes((string)JSON.parseStructure(value_36));
+				value_35_0.Add(value_36_36);
 			}
-		}
-	}
-
-
-	/// <summary>
-	/// Pong
-	/// </summary>
-
-	public class Pong : Response {
-
-		public override string toJson() {
-			List<object> variant = new List<object>();
-			variant.Add("Pong");
-			Dictionary<string, object> fields = new Dictionary<string, object>();
-			variant.Add(fields);
-			return JsonConvert.SerializeObject(variant, Formatting.Indented);
-		}
-
-		public override Response parseJson(string json) {
-			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
-
-			if (lst.Count() != 2) {
-				throw new Exception (String.Format ("expected the list with the length {0} but got {1}", 2, lst.Count()));
+			Int64 value_35_1;
+			value_35_1 = (Int64)JSON.parseStructure(value_35[1]);
+			Int16 value_35_2;
+			value_35_2 = (Int16)JSON.parseStructure(value_35[2]);
+			field_33 = Tuple.Create(value_35_0,value_35_1,value_35_2);
+			this.test15 = field_33;
+			List<Double> field_39 = new List<Double>();
+			foreach(var value_40 in JSON.parseStructure(fields["test16"])) {
+				Double value_40_40;
+				value_40_40 = (Double)JSON.parseStructure(value_40);
+				field_39.Add(value_40_40);
 			}
-
-			if (lst[0].ToString() != this.GetType().Name) {
-				throw new Exception(String.Format("expected the class identifier {0} but got {1}", this.GetType ().ToString (), lst [0].ToString ()));
+			this.test16 = field_39;
+			HashSet<Double> field_41 = new HashSet<Double>();
+			foreach(var value_42 in JSON.parseStructure(fields["test17"])) {
+				Double value_42_42;
+				value_42_42 = (Double)JSON.parseStructure(value_42);
+				field_41.Add(value_42_42);
 			}
-
-			Dictionary<string, object> fields = lst[1].ToObject<Dictionary<string, object>>();
-
-
-			if (this.GetType ().GetProperties ().Count() != fields.Count()) {
-				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
-			}
-
-			foreach (PropertyInfo property in this.GetType().GetProperties()){
-				if (fields.ContainsKey(property.Name) == false) {
-					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
+			this.test17 = field_41;
+			Dictionary<Int64, string> field_43 = new Dictionary<Int64, string>();
+			List<object> value_44_dictionary = JSON.parseStructure(fields["test18"]);
+			foreach(JArray value_44 in value_44_dictionary) {
+				if(value_44.Count() != 2) {
+					throw new Exception(String.Format("expected length 2 but received {0}", value_44.Count()));
 				}
+				Int64 value_44_0;
+				string value_44_1;
+				value_44_0 = (Int64)JSON.parseStructure(value_44[0]);
+				value_44_1 = (string)JSON.parseStructure(value_44[1]);
+				field_43.Add(value_44_0, value_44_1);
 			}
-
-			return this;
-		}
-
-		public override string ToString () {
-			return this.toJson();
-		}
-
-	}
-
-
-	/// <summary>
-	/// Error
-	/// </summary>
-
-	public class Error : Response {
-		string _message;
-		public string message {
-			get {
-				return this._message;
-			}
-			set {
-				try {
-					if (value == null) {
-						throw new Exception("null not allowed");
-					}
-					this._message = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Error.message error message: " + ex.Message);
-				}
-			}
-		}
-
-		public override string toJson() {
-			List<object> variant = new List<object>();
-			variant.Add("Error");
-			Dictionary<string, object> fields = new Dictionary<string, object>();
-			fields.Add("message", JSON.toStructure(this.message));
-			variant.Add(fields);
-			return JsonConvert.SerializeObject(variant, Formatting.Indented);
-		}
-
-		public override Response parseJson(string json) {
-			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
-
-			if (lst.Count() != 2) {
-				throw new Exception (String.Format ("expected the list with the length {0} but got {1}", 2, lst.Count()));
-			}
-
-			if (lst[0].ToString() != this.GetType().Name) {
-				throw new Exception(String.Format("expected the class identifier {0} but got {1}", this.GetType ().ToString (), lst [0].ToString ()));
-			}
-
-			Dictionary<string, object> fields = lst[1].ToObject<Dictionary<string, object>>();
-
-
-			if (this.GetType ().GetProperties ().Count() != fields.Count()) {
-				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
-			}
-
-			foreach (PropertyInfo property in this.GetType().GetProperties()){
-				if (fields.ContainsKey(property.Name) == false) {
-					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
-				}
-			}
-
-			string field_1;
-			field_1 = (string)JSON.parseStructure(fields["message"]);
-			this.message = field_1;
-			return this;
-		}
-
-		public override string ToString () {
-			return this.toJson();
-		}
-
-	}
-
-
-	/// <summary>
-	/// AccountInfo
-	/// </summary>
-
-	public class AccountInfo : Response {
-		Account _account = new Account();
-		public Account account {
-			get {
-				return this._account;
-			}
-			set {
-				try {
-					if (value == null) {
-						throw new Exception("null not allowed");
-					}
-					this._account = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field AccountInfo.account error message: " + ex.Message);
-				}
-			}
-		}
-
-		public override string toJson() {
-			List<object> variant = new List<object>();
-			variant.Add("AccountInfo");
-			Dictionary<string, object> fields = new Dictionary<string, object>();
-			fields.Add("account", JSON.toStructure(this.account));
-			variant.Add(fields);
-			return JsonConvert.SerializeObject(variant, Formatting.Indented);
-		}
-
-		public override Response parseJson(string json) {
-			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
-
-			if (lst.Count() != 2) {
-				throw new Exception (String.Format ("expected the list with the length {0} but got {1}", 2, lst.Count()));
-			}
-
-			if (lst[0].ToString() != this.GetType().Name) {
-				throw new Exception(String.Format("expected the class identifier {0} but got {1}", this.GetType ().ToString (), lst [0].ToString ()));
-			}
-
-			Dictionary<string, object> fields = lst[1].ToObject<Dictionary<string, object>>();
-
-
-			if (this.GetType ().GetProperties ().Count() != fields.Count()) {
-				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
-			}
-
-			foreach (PropertyInfo property in this.GetType().GetProperties()){
-				if (fields.ContainsKey(property.Name) == false) {
-					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
-				}
-			}
-
-			Account field_1 = new Account();
-			Dictionary<string, object> value_2 = ((JObject)fields["account"]).ToObject<Dictionary<string, object>>();
-			Account value_2_1 = new Account();
-			System.UInt64 inner_value_2_id;
-			inner_value_2_id = (System.UInt64)JSON.parseStructure(value_2["id"]);
-			value_2_1.id = inner_value_2_id;
-			string inner_value_2_account_holder_name;
-			inner_value_2_account_holder_name = (string)JSON.parseStructure(value_2["account_holder_name"]);
-			value_2_1.account_holder_name = inner_value_2_account_holder_name;
-			System.Double inner_value_2_balance;
-			inner_value_2_balance = (System.Double)JSON.parseStructure(value_2["balance"]);
-			value_2_1.balance = inner_value_2_balance;
-			field_1 = value_2_1;
-			this.account = field_1;
-			return this;
-		}
-
-		public override string ToString () {
-			return this.toJson();
-		}
-
-	}
-
-
-	/// <summary>
-	/// TransferSuccess
-	/// </summary>
-
-	public class TransferSuccess : Response {
-
-		public override string toJson() {
-			List<object> variant = new List<object>();
-			variant.Add("TransferSuccess");
-			Dictionary<string, object> fields = new Dictionary<string, object>();
-			variant.Add(fields);
-			return JsonConvert.SerializeObject(variant, Formatting.Indented);
-		}
-
-		public override Response parseJson(string json) {
-			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
-
-			if (lst.Count() != 2) {
-				throw new Exception (String.Format ("expected the list with the length {0} but got {1}", 2, lst.Count()));
-			}
-
-			if (lst[0].ToString() != this.GetType().Name) {
-				throw new Exception(String.Format("expected the class identifier {0} but got {1}", this.GetType ().ToString (), lst [0].ToString ()));
-			}
-
-			Dictionary<string, object> fields = lst[1].ToObject<Dictionary<string, object>>();
-
-
-			if (this.GetType ().GetProperties ().Count() != fields.Count()) {
-				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
-			}
-
-			foreach (PropertyInfo property in this.GetType().GetProperties()){
-				if (fields.ContainsKey(property.Name) == false) {
-					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
-				}
-			}
-
-			return this;
-		}
-
-		public override string ToString () {
-			return this.toJson();
-		}
-
-	}
-
-
-	/// <summary>
-	/// TransferFailed
-	/// </summary>
-
-	public class TransferFailed : Response {
-		string _message;
-		public string message {
-			get {
-				return this._message;
-			}
-			set {
-				try {
-					if (value == null) {
-						throw new Exception("null not allowed");
-					}
-					this._message = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field TransferFailed.message error message: " + ex.Message);
-				}
-			}
-		}
-
-		public override string toJson() {
-			List<object> variant = new List<object>();
-			variant.Add("TransferFailed");
-			Dictionary<string, object> fields = new Dictionary<string, object>();
-			fields.Add("message", JSON.toStructure(this.message));
-			variant.Add(fields);
-			return JsonConvert.SerializeObject(variant, Formatting.Indented);
-		}
-
-		public override Response parseJson(string json) {
-			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
-
-			if (lst.Count() != 2) {
-				throw new Exception (String.Format ("expected the list with the length {0} but got {1}", 2, lst.Count()));
-			}
-
-			if (lst[0].ToString() != this.GetType().Name) {
-				throw new Exception(String.Format("expected the class identifier {0} but got {1}", this.GetType ().ToString (), lst [0].ToString ()));
-			}
-
-			Dictionary<string, object> fields = lst[1].ToObject<Dictionary<string, object>>();
-
-
-			if (this.GetType ().GetProperties ().Count() != fields.Count()) {
-				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
-			}
-
-			foreach (PropertyInfo property in this.GetType().GetProperties()){
-				if (fields.ContainsKey(property.Name) == false) {
-					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
-				}
-			}
-
-			string field_1;
-			field_1 = (string)JSON.parseStructure(fields["message"]);
-			this.message = field_1;
-			return this;
-		}
-
-		public override string ToString () {
-			return this.toJson();
-		}
-
-	}
-
-
-	/// <summary>
-	/// AllAccounts
-	/// </summary>
-
-	public class AllAccounts : Response {
-		List<Account> _accounts = new List<Account>();
-		public List<Account> accounts {
-			get {
-				return this._accounts;
-			}
-			set {
-				try {
-					if (value == null) {
-						throw new Exception("null not allowed");
-					}
-					foreach(var value_1 in value) {
-						if (value_1 == null) {
-							throw new Exception("null not allowed");
-						}
-					}
-					this._accounts = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field AllAccounts.accounts error message: " + ex.Message);
-				}
-			}
-		}
-
-		public override string toJson() {
-			List<object> variant = new List<object>();
-			variant.Add("AllAccounts");
-			Dictionary<string, object> fields = new Dictionary<string, object>();
-			fields.Add("accounts", JSON.toStructure(this.accounts));
-			variant.Add(fields);
-			return JsonConvert.SerializeObject(variant, Formatting.Indented);
-		}
-
-		public override Response parseJson(string json) {
-			JArray lst = (JArray)JsonConvert.DeserializeObject(json);
-
-			if (lst.Count() != 2) {
-				throw new Exception (String.Format ("expected the list with the length {0} but got {1}", 2, lst.Count()));
-			}
-
-			if (lst[0].ToString() != this.GetType().Name) {
-				throw new Exception(String.Format("expected the class identifier {0} but got {1}", this.GetType ().ToString (), lst [0].ToString ()));
-			}
-
-			Dictionary<string, object> fields = lst[1].ToObject<Dictionary<string, object>>();
-
-
-			if (this.GetType ().GetProperties ().Count() != fields.Count()) {
-				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
-			}
-
-			foreach (PropertyInfo property in this.GetType().GetProperties()){
-				if (fields.ContainsKey(property.Name) == false) {
-					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
-				}
-			}
-
-			List<Account> field_1 = new List<Account>();
-			foreach(var value_2 in JSON.parseStructure(fields["accounts"])) {
-				Account value_2_2 = new Account();
-				Dictionary<string, object> value_3 = ((JObject)value_2).ToObject<Dictionary<string, object>>();
-				Account value_3_1 = new Account();
-				System.UInt64 inner_value_3_id;
-				inner_value_3_id = (System.UInt64)JSON.parseStructure(value_3["id"]);
-				value_3_1.id = inner_value_3_id;
-				string inner_value_3_account_holder_name;
-				inner_value_3_account_holder_name = (string)JSON.parseStructure(value_3["account_holder_name"]);
-				value_3_1.account_holder_name = inner_value_3_account_holder_name;
-				System.Double inner_value_3_balance;
-				inner_value_3_balance = (System.Double)JSON.parseStructure(value_3["balance"]);
-				value_3_1.balance = inner_value_3_balance;
-				value_2_2 = value_3_1;
-				field_1.Add(value_2_2);
-			}
-			this.accounts = field_1;
+			this.test18 = field_43;
+			TestEnum field_46;
+			field_46 =(TestEnum) Enum.Parse(typeof(TestEnum), fields["test19"].ToString());
+			this.test19 = field_46;
 			return this;
 		}
 
@@ -967,8 +508,6 @@ namespace test {
 	public static class JSON {
 		public static Object toStructure(dynamic obj) {
 			if (obj == null) { return null; }
-			List<string> variant_record_types = new List<string> ();
-			variant_record_types.Add("Account");
 			if (obj.GetType ().BaseType == typeof(System.ValueType)) {
 				return obj;
 			} else if (obj.GetType ().BaseType == typeof(System.Object)) {
@@ -1013,12 +552,6 @@ namespace test {
 				return obj.ToString ();
 			} else if (obj.GetType ().BaseType == typeof(System.Array)) {
 				return Encoding.UTF8.GetString ((byte[])obj);
-			} else if (variant_record_types.Contains(obj.GetType (). BaseType.ToString())){
-				Dictionary<string, object> fields = new Dictionary<string, object>();
-				foreach (PropertyInfo prp in obj.GetType().GetProperties()) {
-					fields.Add(prp.Name, JSON.toStructure(prp.GetValue(obj, null)));
-				}
-				return fields;
 			}
 
 			throw new Exception (String.Format ("not supported type {0}, base type {1}", obj.GetType ().ToString (), obj.GetType ().BaseType.ToString ()));
