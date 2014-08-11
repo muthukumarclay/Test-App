@@ -8,16 +8,156 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 
 
-namespace test {
+namespace test 
+{
+
+
+	/// <summary>
+	/// RegisterAccount
+	/// </summary>
+
+	public class RegisterAccount : Request 
+	{
+		Double _initial_balance;
+		public Double initial_balance {
+			get {
+				return this._initial_balance;
+			}
+			set {
+				try {
+					this._initial_balance = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field RegisterAccount.initial_balance error message: " + ex.Message);
+				}
+			}
+		}
+		string _account_holder_name;
+		public string account_holder_name {
+			get {
+				return this._account_holder_name;
+			}
+			set {
+				try {
+					this._account_holder_name = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field RegisterAccount.account_holder_name error message: " + ex.Message);
+				}
+			}
+		}
+
+		public override string ToString () 
+		{
+			return JSON.toJson(this);
+		}
+
+	}
+
+
+	/// <summary>
+	/// TransferAmount
+	/// </summary>
+
+	public class TransferAmount : Request 
+	{
+		UInt64 _from_account_id;
+		public UInt64 from_account_id {
+			get {
+				return this._from_account_id;
+			}
+			set {
+				try {
+					this._from_account_id = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field TransferAmount.from_account_id error message: " + ex.Message);
+				}
+			}
+		}
+		UInt64 _to_account_id;
+		public UInt64 to_account_id {
+			get {
+				return this._to_account_id;
+			}
+			set {
+				try {
+					this._to_account_id = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field TransferAmount.to_account_id error message: " + ex.Message);
+				}
+			}
+		}
+		Double _amount;
+		public Double amount {
+			get {
+				return this._amount;
+			}
+			set {
+				try {
+					this._amount = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field TransferAmount.amount error message: " + ex.Message);
+				}
+			}
+		}
+
+		public override string ToString () 
+		{
+			return JSON.toJson(this);
+		}
+
+	}
+
+
+	/// <summary>
+	/// LookupAccount
+	/// </summary>
+
+	public class LookupAccount : Request 
+	{
+		UInt64 _account_id;
+		public UInt64 account_id {
+			get {
+				return this._account_id;
+			}
+			set {
+				try {
+					this._account_id = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field LookupAccount.account_id error message: " + ex.Message);
+				}
+			}
+		}
+
+		public override string ToString () 
+		{
+			return JSON.toJson(this);
+		}
+
+	}
 
 
 	/// <summary>
 	/// TestEnum
 	/// </summary>
 
-	public enum TestEnum {
+	public enum TestEnum 
+	{
 		Test1 = 0,
 		Test2 = 1
+	}
+
+
+	/// <summary>
+	/// ListAllAccounts
+	/// </summary>
+
+	public class ListAllAccounts : Request 
+	{
+
+		public override string ToString () 
+		{
+			return JSON.toJson(this);
+		}
+
 	}
 
 
@@ -25,7 +165,8 @@ namespace test {
 	/// Dummy
 	/// </summary>
 
-	public class Dummy {
+	public class Dummy 
+	{
 		UInt64 _id;
 		public UInt64 id {
 			get {
@@ -221,21 +362,17 @@ namespace test {
 				}
 			}
 		}
-		List<byte[]> _test14 = new List<byte[]>();
-		public List<byte[]> test14 {
+		List<string> _test14 = new List<string>();
+		public List<string> test14 {
 			get {
 				return this._test14;
 			}
 			set {
 				try {
 					if (value != null) {
-						if (value.Count() != 5) {
-							throw new Exception(String.Format("expected size 5 but received {0}", value.Count));
-						}
+						Util.check_size(value, 5);
 						foreach(var value_2 in value) {
-							if (value_2 == null) {
-								throw new Exception("null not allowed");
-							}
+							Util.check_for_null(value_2);
 						}
 					}
 					this._test14 = value;
@@ -244,37 +381,23 @@ namespace test {
 				}
 			}
 		}
-		Tuple<List<byte[]>, Int64, Int16> _test15;
-		public Tuple<List<byte[]>, Int64, Int16> test15 {
+		Tuple<string, Int64, Int16> _test15;
+		public Tuple<string, Int64, Int16> test15 {
 			get {
 				return this._test15;
 			}
 			set {
 				try {
 					if (value != null) {
-						List<byte[]> value_inner_item1 = new List<byte[]>();
-						value_inner_item1 =(List<byte[]>)value.Item1;
-						if (value_inner_item1 == null) {
-							throw new Exception("null not allowed");
-						}
-						if (value_inner_item1.Count() != 5) {
-							throw new Exception(String.Format("expected size 5 but received {0}", value_inner_item1.Count));
-						}
-						foreach(var value_3 in value_inner_item1) {
-							if (value_3 == null) {
-								throw new Exception("null not allowed");
-							}
-						}
+						string value_inner_item1;
+						value_inner_item1 =(string)value.Item1;
+						Util.check_for_null(value_inner_item1);
 						Int64 value_inner_item2;
 						value_inner_item2 =(Int64)value.Item2;
-						if (value_inner_item2 == null) {
-							throw new Exception("null not allowed");
-						}
+						Util.check_for_null(value_inner_item2);
 						Int16 value_inner_item3;
 						value_inner_item3 =(Int16)value.Item3;
-						if (value_inner_item3 == null) {
-							throw new Exception("null not allowed");
-						}
+						Util.check_for_null(value_inner_item3);
 					}
 					this._test15 = value;
 				} catch (Exception ex) {
@@ -289,9 +412,9 @@ namespace test {
 			}
 			set {
 				try {
-					foreach(var value_1 in value) {
-						if (value_1 == null) {
-							throw new Exception("null not allowed");
+					if (value != null) {
+						foreach(var value_2 in value) {
+							Util.check_for_null(value_2);
 						}
 					}
 					this._test16 = value;
@@ -307,9 +430,9 @@ namespace test {
 			}
 			set {
 				try {
-					foreach(var value_1 in value) {
-						if (value_1 == null) {
-							throw new Exception("null not allowed");
+					if (value != null) {
+						foreach(var value_2 in value) {
+							Util.check_for_null(value_2);
 						}
 					}
 					this._test17 = value;
@@ -325,12 +448,10 @@ namespace test {
 			}
 			set {
 				try {
-					foreach(var value_1 in value) {
-						if (value_1.Key == null) {
-							throw new Exception("null not allowed");
-						}
-						if (value_1.Value == null) {
-							throw new Exception("null not allowed");
+					if (value != null) {
+						foreach(var value_2 in value) {
+							Util.check_for_null(value_2.Key);
+							Util.check_for_null(value_2.Value);
 						}
 					}
 					this._test18 = value;
@@ -339,8 +460,8 @@ namespace test {
 				}
 			}
 		}
-		TestEnum _test19;
-		public TestEnum test19 {
+		TestEnum? _test19;
+		public TestEnum? test19 {
 			get {
 				return this._test19;
 			}
@@ -352,150 +473,50 @@ namespace test {
 				}
 			}
 		}
-
-		public string toJson() {
-			Dictionary<string, object> fields = new Dictionary<string, object>();
-			fields.Add("id", JSON.toStructure(this.id));
-			fields.Add("account_holder_name", JSON.toStructure(this.account_holder_name));
-			fields.Add("balance", JSON.toStructure(this.balance));
-			fields.Add("test1", JSON.toStructure(this.test1));
-			fields.Add("test2", JSON.toStructure(this.test2));
-			fields.Add("test3", JSON.toStructure(this.test3));
-			fields.Add("test4", JSON.toStructure(this.test4));
-			fields.Add("test5", JSON.toStructure(this.test5));
-			fields.Add("test6", JSON.toStructure(this.test6));
-			fields.Add("test7", JSON.toStructure(this.test7));
-			fields.Add("test8", JSON.toStructure(this.test8));
-			fields.Add("test9", JSON.toStructure(this.test9));
-			fields.Add("test99", JSON.toStructure(this.test99));
-			fields.Add("test11", JSON.toStructure(this.test11));
-			fields.Add("test13", JSON.toStructure(this.test13));
-			fields.Add("test14", JSON.toStructure(this.test14));
-			fields.Add("test15", JSON.toStructure(this.test15));
-			fields.Add("test16", JSON.toStructure(this.test16));
-			fields.Add("test17", JSON.toStructure(this.test17));
-			fields.Add("test18", JSON.toStructure(this.test18));
-			fields.Add("test19", JSON.toStructure(this.test19));
-			return JsonConvert.SerializeObject(fields, Formatting.Indented);
-		}
-
-		public Dummy parseJson(string json) {
-			Dictionary<string, object> fields = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-
-			if (this.GetType ().GetProperties ().Count() != fields.Count()) {
-				throw new Exception (String.Format ("fields count not matching. expected {0} but got {1}", this.GetType ().GetProperties ().Count (), fields.Count()));
+		List<Request> _test20 = new List<Request>();
+		public List<Request> test20 {
+			get {
+				return this._test20;
 			}
-
-			foreach (PropertyInfo property in this.GetType().GetProperties()){
-				if (fields.ContainsKey(property.Name) == false) {
-					throw new Exception (String.Format ("expected field name {0} not found", property.Name));
+			set {
+				try {
+					foreach(var value_1 in value) {
+						Util.check_for_null(value_1);
+					}
+					this._test20 = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Dummy.test20 error message: " + ex.Message);
 				}
 			}
-
-			UInt64 field_1;
-			field_1 = (UInt64)JSON.parseStructure(fields["id"]);
-			this.id = field_1;
-			string field_2;
-			field_2 = (string)JSON.parseStructure(fields["account_holder_name"]);
-			this.account_holder_name = field_2;
-			Double? field_4;
-			field_4 = (Double)JSON.parseStructure(fields["balance"]);
-			this.balance = field_4;
-			SByte? field_6;
-			field_6 = (SByte)JSON.parseStructure(fields["test1"]);
-			this.test1 = field_6;
-			Int16? field_8;
-			field_8 = (Int16)JSON.parseStructure(fields["test2"]);
-			this.test2 = field_8;
-			Int32? field_10;
-			field_10 = (Int32)JSON.parseStructure(fields["test3"]);
-			this.test3 = field_10;
-			Int64? field_12;
-			field_12 = (Int64)JSON.parseStructure(fields["test4"]);
-			this.test4 = field_12;
-			Byte? field_14;
-			field_14 = (Byte)JSON.parseStructure(fields["test5"]);
-			this.test5 = field_14;
-			UInt16? field_16;
-			field_16 = (UInt16)JSON.parseStructure(fields["test6"]);
-			this.test6 = field_16;
-			UInt32? field_18;
-			field_18 = (UInt32)JSON.parseStructure(fields["test7"]);
-			this.test7 = field_18;
-			UInt64? field_20;
-			field_20 = (UInt64)JSON.parseStructure(fields["test8"]);
-			this.test8 = field_20;
-			bool? field_22;
-			field_22 = (bool)JSON.parseStructure(fields["test9"]);
-			this.test9 = field_22;
-			Single? field_24;
-			field_24 = (Single)JSON.parseStructure(fields["test99"]);
-			this.test99 = field_24;
-			byte[] field_26;
-			field_26 = UTF8Encoding.UTF8.GetBytes((string)JSON.parseStructure(fields["test11"]));
-			this.test11 = field_26;
-			string field_28;
-			field_28 = (string)JSON.parseStructure(fields["test13"]);
-			this.test13 = field_28;
-			List<byte[]> field_30 = new List<byte[]>();
-			foreach(var value_32 in JSON.parseStructure(fields["test14"])) {
-				byte[] value_32_32;
-				value_32_32 = UTF8Encoding.UTF8.GetBytes((string)JSON.parseStructure(value_32));
-				field_30.Add(value_32_32);
-			}
-			this.test14 = field_30;
-			Tuple<List<byte[]>, Int64, Int16> field_33;
-			List<object> value_35 = JSON.parseStructure(fields["test15"]);
-			if(value_35.Count() != 3) {
-				throw new Exception(String.Format("expected length {0} but received {1}", 3, value_35.Count()));
-			}
-			List<byte[]> value_35_0 = new List<byte[]>();
-			foreach(var value_36 in JSON.parseStructure(value_35[0])) {
-				byte[] value_36_36;
-				value_36_36 = UTF8Encoding.UTF8.GetBytes((string)JSON.parseStructure(value_36));
-				value_35_0.Add(value_36_36);
-			}
-			Int64 value_35_1;
-			value_35_1 = (Int64)JSON.parseStructure(value_35[1]);
-			Int16 value_35_2;
-			value_35_2 = (Int16)JSON.parseStructure(value_35[2]);
-			field_33 = Tuple.Create(value_35_0,value_35_1,value_35_2);
-			this.test15 = field_33;
-			List<Double> field_39 = new List<Double>();
-			foreach(var value_40 in JSON.parseStructure(fields["test16"])) {
-				Double value_40_40;
-				value_40_40 = (Double)JSON.parseStructure(value_40);
-				field_39.Add(value_40_40);
-			}
-			this.test16 = field_39;
-			HashSet<Double> field_41 = new HashSet<Double>();
-			foreach(var value_42 in JSON.parseStructure(fields["test17"])) {
-				Double value_42_42;
-				value_42_42 = (Double)JSON.parseStructure(value_42);
-				field_41.Add(value_42_42);
-			}
-			this.test17 = field_41;
-			Dictionary<Int64, string> field_43 = new Dictionary<Int64, string>();
-			List<object> value_44_dictionary = JSON.parseStructure(fields["test18"]);
-			foreach(JArray value_44 in value_44_dictionary) {
-				if(value_44.Count() != 2) {
-					throw new Exception(String.Format("expected length 2 but received {0}", value_44.Count()));
-				}
-				Int64 value_44_0;
-				string value_44_1;
-				value_44_0 = (Int64)JSON.parseStructure(value_44[0]);
-				value_44_1 = (string)JSON.parseStructure(value_44[1]);
-				field_43.Add(value_44_0, value_44_1);
-			}
-			this.test18 = field_43;
-			TestEnum field_46;
-			field_46 =(TestEnum) Enum.Parse(typeof(TestEnum), fields["test19"].ToString());
-			this.test19 = field_46;
-			return this;
 		}
 
-		public override string ToString () {
-			return this.toJson();
+		public override string ToString () 
+		{
+			return JSON.toJson(this);
+		}
+
+	}
+
+
+	/// <summary>
+	/// Request
+	/// </summary>
+
+	public class Request 
+	{
+	}
+
+
+	/// <summary>
+	/// Ping
+	/// </summary>
+
+	public class Ping : Request 
+	{
+
+		public override string ToString () 
+		{
+			return JSON.toJson(this);
 		}
 
 	}
@@ -505,46 +526,71 @@ namespace test {
 	/// JSON
 	/// </summary>
 
-	public static class JSON {
-		public static Object toStructure(dynamic obj) {
-			if (obj == null) { return null; }
+	public static class JSON
+	{
+		public static string toJson (dynamic value)
+		{
+			Object structure = toStructure (value);
+			return JsonConvert.SerializeObject (structure, Formatting.Indented);
+		}
+
+		public static T parseJson<T> (string json)
+		{
+			Dictionary<string, object> fields = JsonConvert.DeserializeObject<Dictionary<string, object>> (json);
+			Object data = fields ["data"];
+			return (T)parseStructure (typeof(T), data);
+		}
+
+		public static Object toStructure (dynamic obj)
+		{
+			if (obj == null) {
+				return null;
+			}
 			if (obj.GetType ().BaseType == typeof(System.ValueType)) {
 				return obj;
+			} else if (obj.GetType () == typeof(System.String)) {
+				return obj;
 			} else if (obj.GetType ().BaseType == typeof(System.Object)) {
-				if (obj.GetType ().ToString ().StartsWith ("System.String")) {
-					return obj;
-				}
-				else if (obj.GetType ().ToString ().StartsWith ("System.Collections.Generic.List")) {
+				if (obj.GetType ().ToString ().StartsWith ("System.Collections.Generic.List")) {
 					List<object> lst = new List<object> ();
 					for (int i = 0; i < obj.Count; i++) {
 						lst.Add (toStructure (obj [i]));
 					}
 					return lst;
-				} else if (obj.GetType ().ToString ().StartsWith ("System.Collections.Generic.Dictionary")) {
+				} else if (obj.GetType ().ToString ().StartsWith("System.Collections.Generic.Dictionary")) {
 					List<object> dict_items = new List<object> ();
 					foreach (var key in obj.Keys) {
 						List<object> lst_de = new List<object> ();
 						lst_de.Add (toStructure (key));
-						lst_de.Add (toStructure (obj[key]));
+						lst_de.Add (toStructure (obj [key]));
 						dict_items.Add (lst_de);
 					}
 					return dict_items;
-				} else if (obj.GetType ().ToString ().StartsWith ("System.Collections.Generic.HashSet")) {
+				} else if (obj.GetType ().ToString ().StartsWith("System.Collections.Generic.HashSet")) {
 					List<object> set_items = new List<object> ();
-					foreach(var x in obj) {
-						set_items.Add(toStructure(x));
+					foreach (var x in obj) {
+						set_items.Add (toStructure (x));
 					}
 					return set_items;
 				} else if (obj.GetType ().ToString ().StartsWith ("System.Tuple")) {
 					List<object> tup_items = new List<object> ();
+					int i = 1;
 					foreach (PropertyInfo prp in obj.GetType().GetProperties()) {
-						tup_items.Add (toStructure (prp.GetValue (obj, null)));
+						if (i == 8) {
+							var lst = toStructure (prp.GetValue (obj, null));
+							foreach (var x in lst) {
+								tup_items.Add (x);
+							}
+						} else {
+							tup_items.Add (toStructure (prp.GetValue (obj, null)));
+						}
+						i += 1;
 					}
 					return tup_items;
 				} else {
-					Dictionary<string, object> fields = new Dictionary<string, object>();
+					Dictionary<string, object> fields = new Dictionary<string, object> ();
 					foreach (PropertyInfo prp in obj.GetType().GetProperties()) {
-						fields.Add(prp.Name, JSON.toStructure(prp.GetValue(obj, null)));
+						fields.Add (prp.Name, JSON.toStructure (prp.GetValue (obj, null)));
 					}
 					return fields;
 				}
@@ -552,25 +598,155 @@ namespace test {
 				return obj.ToString ();
 			} else if (obj.GetType ().BaseType == typeof(System.Array)) {
 				return Encoding.UTF8.GetString ((byte[])obj);
+			} else {
+				List<object> variant = new List<object> ();
+				variant.Add (obj.GetType ().Name);
+				Dictionary<string, object> fields = new Dictionary<string, object> ();
+				foreach (PropertyInfo prp in obj.GetType().GetProperties()) {
+					fields.Add (prp.Name, JSON.toStructure (prp.GetValue (obj, null)));
+				}
+				variant.Add (fields);
+				return variant;
 			}
 
-			throw new Exception (String.Format ("not supported type {0}, base type {1}", obj.GetType ().ToString (), obj.GetType ().BaseType.ToString ()));
+			throw new Exception (String.Format("not supported type {0}, base type {1}", obj.GetType ().ToString (), obj.GetType ().BaseType.ToString ()));
 		}
 
-		public static dynamic parseStructure(dynamic obj) {
-			if (obj.GetType ().ToString () == "Newtonsoft.Json.Linq.JValue") {
-				return obj;
-			} else if  (obj.GetType ().ToString () == "Newtonsoft.Json.Linq.JArray") {
-				return obj.ToObject<List<object>>();
-			} else if (obj.GetType ().BaseType == typeof(System.ValueType)) {
-				return obj;
-			} else if (obj.GetType ().BaseType == typeof(System.Object)) {
-				if (obj.GetType ().ToString ().StartsWith ("System.String")) {
-					return obj;
+		public static dynamic parseStructure (Type t_type, dynamic obj)
+		{
+			if (obj.GetType () == typeof(JValue)) {
+				JValue j_value = obj;
+				if (j_value.Value == null) {
+					return null;
 				}
 			}
+			if (t_type.ToString().StartsWith("System.Nullable")) {
+				t_type = t_type.GetGenericArguments () [0];
+				JValue j_value = obj;
+				return parseStructure (t_type, j_value.Value);
+			} else if (t_type == typeof(System.SByte)) {
+				return (System.SByte)obj;
+			} else if (t_type == typeof(System.Int16)) {
+				return (System.Int16)obj;
+			} else if (t_type == typeof(System.Int32)) {
+				return (System.Int32)obj;
+			} else if (t_type == typeof(System.Int64)) {
+				return (System.Int64)obj;
+			} else if (t_type == typeof(System.Byte)) {
+				return (System.Byte)obj;
+			} else if (t_type == typeof(System.UInt16)) {
+				return (System.UInt16)obj;
+			} else if (t_type == typeof(System.UInt32)) {
+				return (System.UInt32)obj;
+			} else if (t_type == typeof(System.UInt64)) {
+				return (System.UInt64)obj;
+			} else if (t_type == typeof(System.Double)) {
+				return (System.Double)obj;
+			} else if (t_type == typeof(System.Single)) {
+				return (System.Single)obj;
+			} else if (t_type == typeof(System.Boolean)) {
+				return (System.Boolean)obj;
+			} else if (t_type == typeof(System.String)) {
+				return Convert.ToString (obj);
+			} else if (t_type.ToString ().StartsWith ("System.Tuple")) {
+				List<dynamic> lst_tuple = new List<dynamic> ();
+				int length = t_type.GetGenericArguments ().Length;
+				for (int i = 0; i < length; i++) {
+					if (i > 6) {
+						break;
+					} else {
+						lst_tuple.Add (parseStructure (t_type.GetGenericArguments () [i], obj [i]));
+					}
+				}
+				if (length > 7) {
+					length = t_type.GetGenericArguments()[7].GetGenericArguments().Length;
+					dynamic[] arr = new dynamic[length];
+					for (int i = 0; i < length; i++) {
+						arr [i] = obj[i + 7];
+					}
+					lst_tuple.Add (parseStructure (t_type.GetGenericArguments () [7], arr));
+				}
+				if (lst_tuple.Count == 1) {
+					return Tuple.Create (lst_tuple [0]);
+				} else if (lst_tuple.Count == 2) {
+					return Tuple.Create (lst_tuple [0], lst_tuple [1]);
+				} else if (lst_tuple.Count == 3) {
+					return Tuple.Create (lst_tuple [0], lst_tuple [1], lst_tuple [2]);
+				} else if (lst_tuple.Count == 4) {
+					return Tuple.Create (lst_tuple [0], lst_tuple [1], lst_tuple [2], lst_tuple [3]);
+				} else if (lst_tuple.Count == 5) {
+					return Tuple.Create (lst_tuple [0], lst_tuple [1],lst_tuple [2], lst_tuple [3], lst_tuple [4]);
+				} else if (lst_tuple.Count == 6) {
+					return Tuple.Create (lst_tuple [0], lst_tuple [1], lst_tuple [2], lst_tuple [3], lst_tuple [4], lst_tuple [5]);
+				} else if (lst_tuple.Count == 7) {
+					return Tuple.Create (lst_tuple [0], lst_tuple [1], lst_tuple [2], lst_tuple [3], lst_tuple [4], lst_tuple [5], lst_tuple [6]);
+				} else if (lst_tuple.Count > 7) {
+					return Tuple.Create (lst_tuple [0], lst_tuple [1], lst_tuple [2],lst_tuple [3], lst_tuple [4], lst_tuple [5], lst_tuple [6], lst_tuple [7]);
+				}
+			} else if (t_type.ToString ().StartsWith("System.Collections.Generic.List")) {
+				dynamic lst = Activator.CreateInstance (t_type, false);
+				foreach (var item in obj) {
+					lst.Add (parseStructure (t_type.GetGenericArguments () [0], item));
+				}
+				return lst;
+			} else if (t_type.ToString ().StartsWith ("System.Collections.Generic.HashSet")) {
+				dynamic hash = Activator.CreateInstance (t_type, false);
+				for (int j = 0; j < obj.Count; j++) {
+					hash.Add (parseStructure (t_type.GetGenericArguments () [0], obj [j]));
+				}
+				return hash;
+			} else if (t_type.ToString ().StartsWith ("System.Collections.Generic.Dictionary")) {
+				dynamic dict = Activator.CreateInstance (t_type, false);
+				foreach(var item in obj) {
+					dynamic key = parseStructure (t_type.GetGenericArguments()[0], item[0]);
+					dynamic value = parseStructure (t_type.GetGenericArguments()[1], item[1]);
+					dict.Add (key, value);
+				}
+				return dict;
+			} else if (t_type.ToString ().StartsWith ("System.Byte[]")) {
+				byte[] value = System.Text.UTF8Encoding.UTF8.GetBytes(Convert.ToString (obj));
+				return value;
+			} else if (t_type.BaseType == typeof(System.Enum)) {
+				return Enum.Parse (t_type, Convert.ToString (obj));
+			} else {
+				dynamic cls;
+				if (obj.GetType ().ToString ().StartsWith ("Newtonsoft.Json.Linq.JArray")) {
+					string option_class_name = t_type.Namespace + "." + obj [0];
+					t_type = Type.GetType (option_class_name);
+					cls = Activator.CreateInstance (t_type, false);
+					obj = obj [1];
+				} else {
+					cls = Activator.CreateInstance (t_type, false);
+				}
+				foreach (PropertyInfo property in t_type.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)) {
+					property.SetValue (cls, parseStructure (property.PropertyType, obj [property.Name]), null);
+				}
 
-			throw new Exception (String.Format ("invalid type in parseStructure got type {0} base type {1}", obj.GetType ().ToString (), obj.GetType ().BaseType.ToString ()));
+				return cls;
+			}
+
+			throw new Exception ("invalid type");
+		}
+	}
+
+	/// <summary>
+	/// Util
+	/// </summary>
+
+	public static class Util
+	{
+		public static void check_for_null (object obj)
+		{
+			if (obj == null) {
+				throw new Exception ("null not allowed");
+			}
+		}
+
+		public static void check_size (dynamic value, int size)
+		{
+			if (value.Count != size) {
+				throw new Exception (String.Format ("expected size {0} but received {1}", size, value.Count));
+			}
 		}
 	}
 

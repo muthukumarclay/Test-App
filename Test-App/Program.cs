@@ -11,19 +11,9 @@ using Newtonsoft.Json.Linq;
 
 namespace TestApp
 {
-	using AccountId = System.UInt32;
-
-	class Test {
-		private List<Int16> _int_test;
-		public List<Int16> int_test {
-			get {
-				return this._int_test;
-			}
-			set {
-					this._int_test = value;
-			}
+	namespace tt {
+		class Ping {
 		}
-
 	}
 
 	class MainClass
@@ -35,39 +25,49 @@ namespace TestApp
 //			TT1
 //		}
 
-//		public static Account getAccount() {
-//			Account src = new Account();
-//			src.account_holder_name = "mk";
-//			src.balance = 100;
+		public static Dummy getDummy() {
+			Dummy src = new Dummy();
+			var lst = new List<List<byte[]>>();
+
+			for (int i =0; i <5; i++) {
+				lst.Add(new List<byte[]>());
+				for (int j =0; j <5; j++) {
+					lst[i].Add(System.Text.UTF8Encoding.UTF8.GetBytes("test_bytes"));
+				}
+			}
+			List<string> lst_14 = new List<string> ();
+			for (int i = 0; i < 5; i++) {
+				lst_14.Add (i.ToString ());
+			}
+
+			List<string> item1 = new List<string>();
+			for (int i =0; i <5; i++) {
+				item1.Add("item1_item");
+			}
+
+			List<string> item2 = new List<string>();
+			item2.Add("item2_item");
+
+			Dictionary<long, string> item3 = new Dictionary<long, string>();
+			item3.Add(100, "mk_value");
+
+			src.account_holder_name = "mk";
+			src.balance = 100;
 //			src.id = 123;
 //			src.test1 = 1;
-//			src.test10 = 2;
-//			src.test11 = System.Text.UTF8Encoding.UTF8.GetBytes("test_bytes");
-//			src.test12 = "test12_strings";
-//			src.test13 = "test13_strings";
-//			var lst = new List<List<byte[]>>();
-//
-//			for (int i =0; i <5; i++) {
-//				lst.Add(new List<byte[]>());
-//				for (int j =0; j <5; j++) {
-//					lst[i].Add(System.Text.UTF8Encoding.UTF8.GetBytes("test_bytes"));
-//				}
-//			}
-//
-//			src.test14 = lst;
-//
-//			List<string> item1 = new List<string>();
-//			for (int i =0; i <5; i++) {
-//				item1.Add("item1_item");
-//			}
-//
-//			List<string> item2 = new List<string>();
-//			item2.Add("item2_item");
-//
-//			Dictionary<long, string> item3 = new Dictionary<long, string>();
-//			item3.Add(100, "mk_value");
-//
-//			src.test15 = Tuple.Create<List<string>, List<string>, Dictionary<long, string>>(item1, item2, item3);
+//			src.test2 = 2;
+//			src.test3 = 3;
+//			src.test4 = 4;
+//			src.test5 = 5;
+//			src.test6 = 6;
+//			src.test7 = 7;
+//			src.test8 = 8;
+//			src.test9 = false;
+//			src.test99 = (float)9.9;
+//			src.test11 = UTF8Encoding.UTF8.GetBytes ("ttt");
+//			src.test13 = "test_string";
+//			src.test14 = lst_14;
+//			src.test15 = Tuple.Create ("test", (long)100, (short)1);
 //			src.test16 = new List<double>();
 //			src.test16.Add(101);
 //			src.test17 = new HashSet<double>();
@@ -77,70 +77,66 @@ namespace TestApp
 //			src.test18 = new Dictionary<long, string>();
 //			src.test18.Add(103, "test18_balue");
 //			src.test19 = TestEnum.Test1;
-//			src.test20 = new List<string>();
-//			src.test20.Add("test20_string");
-//			return src;
-//		}
 
-		public static void printInt(int x) {
-			try {
-				Console.WriteLine (x);
-			}
-			catch(Exception ex) {
-				throw new Exception ("error setting printInt error:" + ex.Message);
-			}
+			src.test1 = null;
+			src.test2 = null;
+			src.test3 = null;
+			src.test4 = null;
+			src.test5 = null;
+			src.test6 = null;
+			src.test7 = null;
+			src.test8 = null;
+			src.test9 = null;
+			src.test99 = null;
+			src.test11 = null;
+			src.test13 = null;
+			src.test14 = null;
+			src.test15 = null;
+			src.test16 = null;
+			src.test17 = null;
+			src.test18 = null;
+			src.test19 = null;
+			src.test20 = new List<Request> ();
+			RegisterAccount rr = new RegisterAccount ();
+			rr.account_holder_name = "muthu";
+			rr.initial_balance = 123;
+			src.test20.Add (rr);
+			src.test20.Add (rr);
+
+			return src;
 		}
+
+
 
 		public static void Main (string[] args)
 		{
 			try {
-//				Ping pg = new Ping();
-//				Console.WriteLine(pg.GetType().ToString());
-//				Console.WriteLine(pg.GetType().BaseType.ToString());
-//				Account acc = new Account();
-//				Console.WriteLine(acc.GetType().ToString());
-//				Console.WriteLine(acc.GetType().BaseType.ToString());
-//
-//				if (acc.GetType().BaseType == typeof(Request)) {
-//					Console.WriteLine("acc yes it is ");
-//				} else {
-//					Console.WriteLine("acc no it is ");
-//				}
-//
-//				if (pg.GetType().BaseType == typeof(Request)) {
-//					Console.WriteLine("pg yes ");
-//				}
-//				else {
-//					Console.WriteLine("pg no ");
-//				}
-//				int? i = null;
-//				bool? bln = null;
-//				Tuple<int> tup = null;
+				string json = JSON.toJson( getDummy());
+				Console.WriteLine(json);
+				json = "{ \"data\": " + json + " }";
+				Dummy test = JSON.parseJson<Dummy>(json);
+				Console.WriteLine(test);
 
-//				Request request = new Request();
-//				Response response = new Response();
-//
+//				Response response;
 //				ListAllAccounts list_all = new ListAllAccounts();
-//				request.set_option(list_all);
-//				response.set_option((Response)Util.api_request(request, response));
-//				Console.WriteLine(response.toJson());
+//				response = JSON.parseJson<Response>(Util.api_request(list_all));
+//				Console.WriteLine(response);
 //
 //				RegisterAccount register = new RegisterAccount();
 //				register.account_holder_name = null;
 //				register.initial_balance = 100;
-//				request.set_option(register);
-//				response.set_option((Response)Util.api_request(request, response));
-//				Console.WriteLine(response.toJson());
+//				response = JSON.parseJson<Response>(Util.api_request(register));
+//				Console.WriteLine(response);
 //
 //				LookupAccount lk = new LookupAccount ();
-//				lk.account_id = ((AccountInfo)response.get_option()).account.id;
-//				request.set_option(lk);
-//				response.set_option((Response)Util.api_request(request, response));
-//				Console.WriteLine(response.toJson());
+//				lk.account_id = ((AccountInfo)response).account.id;
+//				response = JSON.parseJson<Response>(Util.api_request(lk));
+//				Console.WriteLine(response);
 			} catch (WebException ex) {
 				Console.WriteLine ("http errror: " + ex.Message);
 			} catch (Exception ex) {
 				Console.WriteLine (ex.Message);
+				Console.WriteLine (ex.StackTrace);
 			}
 
 			Console.ReadLine ();

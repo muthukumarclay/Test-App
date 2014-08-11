@@ -8,15 +8,17 @@ using System.Collections.Generic;
 
 namespace TestApp
 {
+
+
 	public static class Util
 	{
 		public const string ADMIN_API_URL = "http://localhost:8080/api";
 		public const bool DEBUG = true;
 
-		public static object api_request (dynamic webrequest_value, dynamic response)
+		public static string api_request (dynamic webrequest_value)
 		{
 			try {
-				string strBody = webrequest_value.toJson ();
+				string strBody = test.JSON.toJson(webrequest_value);
 				strBody = "{ \"data\": " + strBody + " }";
 
 				if (DEBUG) {
@@ -46,9 +48,7 @@ namespace TestApp
 					Console.WriteLine (json);
 				}
 
-				Dictionary<string, object> fields = JsonConvert.DeserializeObject<Dictionary<string, object>> (json);
-				json = JsonConvert.SerializeObject (fields ["data"]);
-				return response.parseJson (json);
+				return json;
 			} catch (WebException ex) {
 				Console.WriteLine ("http errror: " + ex.Message);
 				StreamReader stream = new StreamReader (ex.Response.GetResponseStream ());
