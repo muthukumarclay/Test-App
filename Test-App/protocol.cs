@@ -13,6 +13,73 @@ namespace test
 
 
 	/// <summary>
+	/// Pong
+	/// </summary>
+
+	public class Pong : Response 
+	{
+
+		public override string ToString () 
+		{
+			return JSON.toJson(this);
+		}
+
+	}
+
+
+	/// <summary>
+	/// TransferSuccess
+	/// </summary>
+
+	public class TransferSuccess : Response 
+	{
+
+		public override string ToString () 
+		{
+			return JSON.toJson(this);
+		}
+
+	}
+
+
+	/// <summary>
+	/// Error
+	/// </summary>
+
+	public class Error : Response 
+	{
+		string _message;
+		public string message {
+			get {
+				return this._message;
+			}
+			set {
+				try {
+					this._message = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Error.message error message: " + ex.Message);
+				}
+			}
+		}
+
+		public override string ToString () 
+		{
+			return JSON.toJson(this);
+		}
+
+	}
+
+
+	/// <summary>
+	/// Response
+	/// </summary>
+
+	public class Response 
+	{
+	}
+
+
+	/// <summary>
 	/// RegisterAccount
 	/// </summary>
 
@@ -41,6 +108,93 @@ namespace test
 					this._account_holder_name = value;
 				} catch (Exception ex) {
 					throw new Exception ("error setting field RegisterAccount.account_holder_name error message: " + ex.Message);
+				}
+			}
+		}
+
+		public override string ToString () 
+		{
+			return JSON.toJson(this);
+		}
+
+	}
+
+
+	/// <summary>
+	/// LookupAccount
+	/// </summary>
+
+	public class LookupAccount : Request 
+	{
+		UInt64 _account_id;
+		public UInt64 account_id {
+			get {
+				return this._account_id;
+			}
+			set {
+				try {
+					this._account_id = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field LookupAccount.account_id error message: " + ex.Message);
+				}
+			}
+		}
+
+		public override string ToString () 
+		{
+			return JSON.toJson(this);
+		}
+
+	}
+
+
+	/// <summary>
+	/// AllAccounts
+	/// </summary>
+
+	public class AllAccounts : Response 
+	{
+		List<Account> _accounts = new List<Account>();
+		public List<Account> accounts {
+			get {
+				return this._accounts;
+			}
+			set {
+				try {
+					foreach(var value_1 in value) {
+						Util.check_for_null(value_1);
+					}
+					this._accounts = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field AllAccounts.accounts error message: " + ex.Message);
+				}
+			}
+		}
+
+		public override string ToString () 
+		{
+			return JSON.toJson(this);
+		}
+
+	}
+
+
+	/// <summary>
+	/// AccountInfo
+	/// </summary>
+
+	public class AccountInfo : Response 
+	{
+		Account _account = new Account();
+		public Account account {
+			get {
+				return this._account;
+			}
+			set {
+				try {
+					this._account = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field AccountInfo.account error message: " + ex.Message);
 				}
 			}
 		}
@@ -108,41 +262,17 @@ namespace test
 
 
 	/// <summary>
-	/// LookupAccount
+	/// Ping
 	/// </summary>
 
-	public class LookupAccount : Request 
+	public class Ping : Request 
 	{
-		UInt64 _account_id;
-		public UInt64 account_id {
-			get {
-				return this._account_id;
-			}
-			set {
-				try {
-					this._account_id = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field LookupAccount.account_id error message: " + ex.Message);
-				}
-			}
-		}
 
 		public override string ToString () 
 		{
 			return JSON.toJson(this);
 		}
 
-	}
-
-
-	/// <summary>
-	/// TestEnum
-	/// </summary>
-
-	public enum TestEnum 
-	{
-		Test1 = 0,
-		Test2 = 1
 	}
 
 
@@ -162,330 +292,21 @@ namespace test
 
 
 	/// <summary>
-	/// Dummy
+	/// TransferFailed
 	/// </summary>
 
-	public class Dummy 
+	public class TransferFailed : Response 
 	{
-		UInt64 _id;
-		public UInt64 id {
+		string _message;
+		public string message {
 			get {
-				return this._id;
+				return this._message;
 			}
 			set {
 				try {
-					this._id = value;
+					this._message = value;
 				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.id error message: " + ex.Message);
-				}
-			}
-		}
-		string _account_holder_name;
-		public string account_holder_name {
-			get {
-				return this._account_holder_name;
-			}
-			set {
-				try {
-					this._account_holder_name = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.account_holder_name error message: " + ex.Message);
-				}
-			}
-		}
-		Double? _balance;
-		public Double? balance {
-			get {
-				return this._balance;
-			}
-			set {
-				try {
-					this._balance = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.balance error message: " + ex.Message);
-				}
-			}
-		}
-		SByte? _test1;
-		public SByte? test1 {
-			get {
-				return this._test1;
-			}
-			set {
-				try {
-					this._test1 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test1 error message: " + ex.Message);
-				}
-			}
-		}
-		Int16? _test2;
-		public Int16? test2 {
-			get {
-				return this._test2;
-			}
-			set {
-				try {
-					this._test2 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test2 error message: " + ex.Message);
-				}
-			}
-		}
-		Int32? _test3;
-		public Int32? test3 {
-			get {
-				return this._test3;
-			}
-			set {
-				try {
-					this._test3 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test3 error message: " + ex.Message);
-				}
-			}
-		}
-		Int64? _test4;
-		public Int64? test4 {
-			get {
-				return this._test4;
-			}
-			set {
-				try {
-					this._test4 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test4 error message: " + ex.Message);
-				}
-			}
-		}
-		Byte? _test5;
-		public Byte? test5 {
-			get {
-				return this._test5;
-			}
-			set {
-				try {
-					this._test5 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test5 error message: " + ex.Message);
-				}
-			}
-		}
-		UInt16? _test6;
-		public UInt16? test6 {
-			get {
-				return this._test6;
-			}
-			set {
-				try {
-					this._test6 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test6 error message: " + ex.Message);
-				}
-			}
-		}
-		UInt32? _test7;
-		public UInt32? test7 {
-			get {
-				return this._test7;
-			}
-			set {
-				try {
-					this._test7 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test7 error message: " + ex.Message);
-				}
-			}
-		}
-		UInt64? _test8;
-		public UInt64? test8 {
-			get {
-				return this._test8;
-			}
-			set {
-				try {
-					this._test8 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test8 error message: " + ex.Message);
-				}
-			}
-		}
-		bool? _test9;
-		public bool? test9 {
-			get {
-				return this._test9;
-			}
-			set {
-				try {
-					this._test9 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test9 error message: " + ex.Message);
-				}
-			}
-		}
-		Single? _test99;
-		public Single? test99 {
-			get {
-				return this._test99;
-			}
-			set {
-				try {
-					this._test99 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test99 error message: " + ex.Message);
-				}
-			}
-		}
-		byte[] _test11;
-		public byte[] test11 {
-			get {
-				return this._test11;
-			}
-			set {
-				try {
-					this._test11 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test11 error message: " + ex.Message);
-				}
-			}
-		}
-		string _test13;
-		public string test13 {
-			get {
-				return this._test13;
-			}
-			set {
-				try {
-					this._test13 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test13 error message: " + ex.Message);
-				}
-			}
-		}
-		List<string> _test14 = new List<string>();
-		public List<string> test14 {
-			get {
-				return this._test14;
-			}
-			set {
-				try {
-					if (value != null) {
-						Util.check_size(value, 5);
-						foreach(var value_2 in value) {
-							Util.check_for_null(value_2);
-						}
-					}
-					this._test14 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test14 error message: " + ex.Message);
-				}
-			}
-		}
-		Tuple<string, Int64, Int16> _test15;
-		public Tuple<string, Int64, Int16> test15 {
-			get {
-				return this._test15;
-			}
-			set {
-				try {
-					if (value != null) {
-						string value_inner_item1;
-						value_inner_item1 =(string)value.Item1;
-						Util.check_for_null(value_inner_item1);
-						Int64 value_inner_item2;
-						value_inner_item2 =(Int64)value.Item2;
-						Util.check_for_null(value_inner_item2);
-						Int16 value_inner_item3;
-						value_inner_item3 =(Int16)value.Item3;
-						Util.check_for_null(value_inner_item3);
-					}
-					this._test15 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test15 error message: " + ex.Message);
-				}
-			}
-		}
-		List<Double> _test16 = new List<Double>();
-		public List<Double> test16 {
-			get {
-				return this._test16;
-			}
-			set {
-				try {
-					if (value != null) {
-						foreach(var value_2 in value) {
-							Util.check_for_null(value_2);
-						}
-					}
-					this._test16 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test16 error message: " + ex.Message);
-				}
-			}
-		}
-		HashSet<Double> _test17 = new HashSet<Double>();
-		public HashSet<Double> test17 {
-			get {
-				return this._test17;
-			}
-			set {
-				try {
-					if (value != null) {
-						foreach(var value_2 in value) {
-							Util.check_for_null(value_2);
-						}
-					}
-					this._test17 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test17 error message: " + ex.Message);
-				}
-			}
-		}
-		Dictionary<Int64, string> _test18 = new Dictionary<Int64, string>();
-		public Dictionary<Int64, string> test18 {
-			get {
-				return this._test18;
-			}
-			set {
-				try {
-					if (value != null) {
-						foreach(var value_2 in value) {
-							Util.check_for_null(value_2.Key);
-							Util.check_for_null(value_2.Value);
-						}
-					}
-					this._test18 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test18 error message: " + ex.Message);
-				}
-			}
-		}
-		TestEnum? _test19;
-		public TestEnum? test19 {
-			get {
-				return this._test19;
-			}
-			set {
-				try {
-					this._test19 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test19 error message: " + ex.Message);
-				}
-			}
-		}
-		List<Request> _test20 = new List<Request>();
-		public List<Request> test20 {
-			get {
-				return this._test20;
-			}
-			set {
-				try {
-					foreach(var value_1 in value) {
-						Util.check_for_null(value_1);
-					}
-					this._test20 = value;
-				} catch (Exception ex) {
-					throw new Exception ("error setting field Dummy.test20 error message: " + ex.Message);
+					throw new Exception ("error setting field TransferFailed.message error message: " + ex.Message);
 				}
 			}
 		}
@@ -508,11 +329,50 @@ namespace test
 
 
 	/// <summary>
-	/// Ping
+	/// Account
 	/// </summary>
 
-	public class Ping : Request 
+	public class Account 
 	{
+		UInt64 _id;
+		public UInt64 id {
+			get {
+				return this._id;
+			}
+			set {
+				try {
+					this._id = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Account.id error message: " + ex.Message);
+				}
+			}
+		}
+		string _account_holder_name;
+		public string account_holder_name {
+			get {
+				return this._account_holder_name;
+			}
+			set {
+				try {
+					this._account_holder_name = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Account.account_holder_name error message: " + ex.Message);
+				}
+			}
+		}
+		Double _balance;
+		public Double balance {
+			get {
+				return this._balance;
+			}
+			set {
+				try {
+					this._balance = value;
+				} catch (Exception ex) {
+					throw new Exception ("error setting field Account.balance error message: " + ex.Message);
+				}
+			}
+		}
 
 		public override string ToString () 
 		{
@@ -608,8 +468,6 @@ namespace test
 				variant.Add (fields);
 				return variant;
 			}
-
-			throw new Exception (String.Format("not supported type {0}, base type {1}", obj.GetType ().ToString (), obj.GetType ().BaseType.ToString ()));
 		}
 
 		public static dynamic parseStructure (Type t_type, dynamic obj)
